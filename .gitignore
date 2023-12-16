@@ -1,0 +1,4 @@
+algotrading/__pycache__
+algotrading/config/__pycache__
+algotrading/config/providers/oanda.cfg
+algotrading/resources/
