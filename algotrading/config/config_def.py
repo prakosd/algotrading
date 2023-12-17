@@ -6,7 +6,7 @@ class ProviderConfigData:
     """Provider config data definition"""
     data_directory: str
     file_extension: str
-    config_path_tpqoa: str
+    config_path_oanda: str
 
 @dataclass
 class AccountConfigData:

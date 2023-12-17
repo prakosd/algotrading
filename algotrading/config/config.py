@@ -12,7 +12,7 @@ from .config_def import AccountConfigData, DealConfigData
 class Config:
     """Class to load config"""
     _instance: ClassVar[ConfigData] = None
-    _conf_file: ClassVar[str] = path.relpath(
+    _CONF_FILE: ClassVar[str] = path.relpath(
         path.join(
             path.dirname(
                 path.relpath(__file__)), 'global.cfg'))
@@ -24,12 +24,12 @@ class Config:
             return Config._instance
 
         parser = configparser.ConfigParser()
-        parser.read(Config._conf_file)
+        parser.read(Config._CONF_FILE)
 
         provider = ProviderConfigData(
             data_directory    = parser['resources']['data_directory'],
             file_extension    = parser['resources']['file_extension'],
-            config_path_tpqoa = parser['tpqoa']['config_path']
+            config_path_oanda = parser['oanda']['config_path']
         )
 
         account = AccountConfigData(

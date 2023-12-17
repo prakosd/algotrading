@@ -1,4 +1,7 @@
-algotrading/__pycache__
-algotrading/config/__pycache__
+algotrading/__pycache__/
+algotrading/config/__pycache__/
+algotrading/providers/__pycache__/
+algotrading/providers/api/__pycache__/
+algotrading/providers/implementation/__pycache__/
 algotrading/config/providers/oanda.cfg
 algotrading/resources/
