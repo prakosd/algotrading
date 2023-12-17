@@ -1,3 +1,3 @@
 """Initialize package"""
-from .oanda import Oanda
-from .provider_factory import ProviderFactory
+from .oanda import OandaProvider
+from .factory import ProviderFactory

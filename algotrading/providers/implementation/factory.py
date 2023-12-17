@@ -2,7 +2,7 @@
 from datetime import datetime as dt
 
 from ..api import EIProvider, Granularity
-from .oanda import Oanda
+from .oanda import OandaProvider
 
 class ProviderFactory():
     """Static class to create provider object"""
@@ -13,6 +13,6 @@ class ProviderFactory():
                                 granularity: Granularity) -> EIProvider | None:
         """Return provider object by name"""
         if name == EIProvider.PROVIDER_OANDA:
-            return Oanda(symbol, start, end, granularity)
+            return OandaProvider(symbol, start, end, granularity)
 
         return None

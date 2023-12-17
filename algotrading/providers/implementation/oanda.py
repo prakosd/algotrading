@@ -10,7 +10,7 @@ from ...config import config
 from ..api import EIProvider
 
 @dataclass
-class Oanda(EIProvider):
+class OandaProvider(EIProvider):
     """Implementation of EIProvider Class"""
     _INDEX_COL = "time"
     _PRICE_ASK = "A"
@@ -29,7 +29,7 @@ class Oanda(EIProvider):
         if not os.path.exists(EIProvider._DATA_DIR):
             os.mkdir(EIProvider._DATA_DIR)
 
-        instruments = pd.DataFrame.from_records(Oanda._API.get_instruments(),
+        instruments = pd.DataFrame.from_records(OandaProvider._API.get_instruments(),
                                                 columns=["symbol", "instrument"])
         instruments[["symbol", "instrument"]]=instruments[["instrument", "symbol"]]
         instruments.to_csv(EIProvider._DATA_DIR + filename, index=False)
@@ -59,8 +59,8 @@ class Oanda(EIProvider):
 
         if os.path.exists(EIProvider._DATA_DIR + self._filename) and not force_download:
             self._response = pd.read_csv(EIProvider._DATA_DIR + self._filename,
-                                         parse_dates=[Oanda._INDEX_COL],
-                                         index_col=Oanda._INDEX_COL)
+                                         parse_dates=[OandaProvider._INDEX_COL],
+                                         index_col=OandaProvider._INDEX_COL)
 
         else:
             if not os.path.exists(EIProvider._DATA_DIR):
@@ -75,10 +75,10 @@ class Oanda(EIProvider):
     def _prepare_data(self):
         print("(1/3) Fetching data...", flush=True, end="\r")
         try:
-            ask = Oanda._API.get_history(instrument=self.symbol,
+            ask = OandaProvider._API.get_history(instrument=self.symbol,
                                             start=self.start, end=self.end,
                                             granularity=self.granularity.value,
-                                            price=Oanda._PRICE_ASK, localize=False)
+                                            price=OandaProvider._PRICE_ASK, localize=False)
         except ResponseNoField as exp:
             print(f"ERROR ResponseNoField: {exp}")
             return
@@ -92,10 +92,10 @@ class Oanda(EIProvider):
         ask = ask.rename(columns={"c": "ask"})
 
         print("(2/3) Fetching data....", flush=True, end="\r")
-        bid = Oanda._API.get_history(instrument=self.symbol,
+        bid = OandaProvider._API.get_history(instrument=self.symbol,
                                         start=self.start, end=self.end,
                                         granularity=self.granularity.value,
-                                        price=Oanda._PRICE_BID, localize=False)
+                                        price=OandaProvider._PRICE_BID, localize=False)
 
         bid = bid.dropna()
         bid = bid.loc[bid.complete]
@@ -103,10 +103,10 @@ class Oanda(EIProvider):
         bid = bid.rename(columns={"c": "bid"})
 
         print("(3/3) Fetching data.....", flush=True, end="\r")
-        mid = Oanda._API.get_history(instrument=self.symbol,
+        mid = OandaProvider._API.get_history(instrument=self.symbol,
                                         start=self.start, end=self.end,
                                         granularity=self.granularity.value,
-                                        price=Oanda._PRICE_MID, localize=False)
+                                        price=OandaProvider._PRICE_MID, localize=False)
 
         mid = mid.dropna()
         mid = mid.loc[mid.complete]
