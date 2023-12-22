@@ -1,5 +1,4 @@
-"""Module of Oanda Provider"""
-from dataclasses import dataclass
+"""Module of Oanda Provider Class"""
 import os.path
 import decimal
 import pandas as pd
@@ -9,9 +8,8 @@ import tpqoa
 from ...config import config
 from ..api import EIProvider
 
-@dataclass
 class OandaProvider(EIProvider):
-    """Implementation of EIProvider Class"""
+    """Implementation of EIProvider"""
     _INDEX_COL = "time"
     _PRICE_ASK = "A"
     _PRICE_BID = "B"

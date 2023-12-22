@@ -1,5 +1,8 @@
 algotrading/__pycache__/
 algotrading/config/__pycache__/
+algotrading/ticker/__pycache__/
+algotrading/ticker/api/__pycache__/
+algotrading/ticker/implementation/__pycache__/
 algotrading/providers/__pycache__/
 algotrading/providers/api/__pycache__/
 algotrading/providers/implementation/__pycache__/
