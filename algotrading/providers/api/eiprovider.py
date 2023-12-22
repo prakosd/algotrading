@@ -1,7 +1,7 @@
 """Module of Provider Entity Interface"""
 from dataclasses import dataclass
 from abc import ABC, abstractmethod
-from typing import ClassVar, Optional
+from typing import ClassVar
 from datetime import datetime as dt
 import pandas as pd
 
@@ -19,8 +19,6 @@ class EIProvider(ABC):
     start: dt
     end: dt
     granularity: Granularity
-    _response: Optional[pd.DataFrame] = None
-    _filename: Optional[str] = None
 
     @staticmethod
     @abstractmethod

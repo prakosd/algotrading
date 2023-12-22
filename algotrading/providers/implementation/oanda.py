@@ -36,27 +36,20 @@ class OandaProvider(EIProvider):
 
     def get_filename(self) -> str:
         """Retrieve filename of saved response"""
-        if self._filename is not None:
-            return self._filename
-
         name = f"OANDA_{self.symbol}_{self.start}_{self.end}_{self.granularity.value}"
-        self._filename = name + EIProvider._FILE_EXT
+        filename = name + EIProvider._FILE_EXT
 
-        return self._filename
+        return filename
 
     def get_response(self, force_download: bool=False) -> pd.DataFrame:
         """Returns response from the provider"""
-        if self._response is not None and not force_download:
-            return self._response
+        return self._fetch_data(force_download)
 
-        self._fetch_data(force_download)
-        return self._response
+    def _fetch_data(self, force_download: bool=False) -> pd.DataFrame:
+        filename = self.get_filename()
 
-    def _fetch_data(self, force_download: bool=False):
-        self.get_filename()
-
-        if os.path.exists(EIProvider._DATA_DIR + self._filename) and not force_download:
-            self._response = pd.read_csv(EIProvider._DATA_DIR + self._filename,
+        if os.path.exists(EIProvider._DATA_DIR + filename) and not force_download:
+            response = pd.read_csv(EIProvider._DATA_DIR + filename,
                                          parse_dates=[OandaProvider._INDEX_COL],
                                          index_col=OandaProvider._INDEX_COL)
 
@@ -64,13 +57,13 @@ class OandaProvider(EIProvider):
             if not os.path.exists(EIProvider._DATA_DIR):
                 os.mkdir(EIProvider._DATA_DIR)
 
-            self._prepare_data()
-            if self._response is None:
-                return None
+            response = self._prepare_data()
+            if response is not None:
+                response.to_csv(EIProvider._DATA_DIR + filename)
 
-            self._response.to_csv(EIProvider._DATA_DIR + self._filename)
+        return response
 
-    def _prepare_data(self):
+    def _prepare_data(self) -> pd.DataFrame:
         print("(1/3) Fetching data...", flush=True, end="\r")
         try:
             ask = OandaProvider._API.get_history(instrument=self.symbol,
@@ -120,5 +113,7 @@ class OandaProvider(EIProvider):
         raw["spread"] = round((raw.ask - raw.bid) * pow(10, raw.digit), 0).apply(int)
 
         raw = raw.loc[~raw.index.duplicated(keep='first')]
-        self._response = raw.sort_index()
+        response = raw.sort_index()
         print("                        ", flush=True, end="\r")
+
+        return response
