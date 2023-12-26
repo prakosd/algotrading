@@ -1,10 +1,22 @@
 {
     "cSpell.words": [
         "algotrading",
+        "axhline",
+        "darkgreen",
         "dropna",
         "eiprovider",
         "eitick",
+        "eiticker",
+        "ffill",
+        "figsize",
+        "fillna",
+        "fontsize",
+        "iloc",
+        "linestyle",
+        "linewidth",
         "oanda",
-        "tpqoa"
+        "tpqoa",
+        "xlabel",
+        "ylabel"
     ]
 }
