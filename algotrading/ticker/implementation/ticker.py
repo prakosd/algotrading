@@ -1,9 +1,11 @@
 """Module of Ticker Class"""
-from matplotlib import pyplot as plt
+import matplotlib.pyplot as plt
 import pandas as pd
 
 from ...common import Timeframe
 from ..api import EITicker, EITick
+
+plt.style.use("seaborn")
 
 class Ticker(EITicker):
     """Implementation of EITicker"""

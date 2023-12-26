@@ -31,9 +31,9 @@ class EIProvider(ABC):
         """Return response from provider"""
 
     @abstractmethod
-    def get_ticker(self, force_download: bool=False) -> EITicker:
-        """Return response in EITicker object"""
-
-    @abstractmethod
     def get_filename(self) -> str:
         """Generate and return filename of saved response"""
+
+    @abstractmethod
+    def get_ticker(self, force_download: bool=False) -> EITicker:
+        """Return response in EITicker object"""
