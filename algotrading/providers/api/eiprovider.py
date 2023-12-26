@@ -6,7 +6,8 @@ from datetime import datetime as dt
 import pandas as pd
 
 from ...config import config
-from .enums import Granularity
+from ...common import Timeframe
+from ...ticker import EITicker
 
 @dataclass
 class EIProvider(ABC):
@@ -18,17 +19,21 @@ class EIProvider(ABC):
     symbol: str
     start: dt
     end: dt
-    granularity: Granularity
+    timeframe: Timeframe
 
     @staticmethod
     @abstractmethod
     def get_instruments(force_download: bool=False) -> pd.DataFrame:
-        """Returns available instruments"""
+        """Return available instruments"""
 
     @abstractmethod
     def get_response(self, force_download: bool=False) -> pd.DataFrame:
-        """Returns response from the provider"""
+        """Return response from provider"""
+
+    @abstractmethod
+    def get_ticker(self, force_download: bool=False) -> EITicker:
+        """Return response in EITicker object"""
 
     @abstractmethod
     def get_filename(self) -> str:
-        """Return filename of saved response"""
+        """Generate and return filename of saved response"""

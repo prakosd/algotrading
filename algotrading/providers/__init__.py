@@ -1,3 +1,3 @@
 """Initialize package"""
-from .api import EIProvider, Granularity
+from .api import EIProvider
 from .implementation import OandaProvider, ProviderFactory

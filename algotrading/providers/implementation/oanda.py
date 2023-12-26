@@ -7,6 +7,7 @@ import tpqoa
 
 from ...config import config
 from ..api import EIProvider
+from ...ticker import EITicker, Ticker
 
 class OandaProvider(EIProvider):
     """Implementation of EIProvider"""
@@ -18,7 +19,7 @@ class OandaProvider(EIProvider):
 
     @staticmethod
     def get_instruments(force_download: bool=False) -> pd.DataFrame:
-        """Returns available instruments"""
+        """Return available instruments"""
         filename = EIProvider.PROVIDER_OANDA + "_INSTRUMENTS" + EIProvider._FILE_EXT
 
         if os.path.exists(EIProvider._DATA_DIR + filename) and not force_download:
@@ -35,14 +36,14 @@ class OandaProvider(EIProvider):
         return instruments
 
     def get_filename(self) -> str:
-        """Retrieve filename of saved response"""
-        name = f"OANDA_{self.symbol}_{self.start}_{self.end}_{self.granularity.value}"
+        """Generate and return filename of saved response"""
+        name = f"OANDA_{self.symbol}_{self.start}_{self.end}_{self.timeframe.value.description}"
         filename = name + EIProvider._FILE_EXT
 
         return filename
 
     def get_response(self, force_download: bool=False) -> pd.DataFrame:
-        """Returns response from the provider"""
+        """Return response from provider"""
         return self._fetch_data(force_download)
 
     def _fetch_data(self, force_download: bool=False) -> pd.DataFrame:
@@ -68,7 +69,7 @@ class OandaProvider(EIProvider):
         try:
             ask = OandaProvider._API.get_history(instrument=self.symbol,
                                             start=self.start, end=self.end,
-                                            granularity=self.granularity.value,
+                                            granularity=self.timeframe.value.granularity,
                                             price=OandaProvider._PRICE_ASK, localize=False)
         except ResponseNoField as exp:
             print(f"ERROR ResponseNoField: {exp}")
@@ -85,7 +86,7 @@ class OandaProvider(EIProvider):
         print("(2/3) Fetching data....", flush=True, end="\r")
         bid = OandaProvider._API.get_history(instrument=self.symbol,
                                         start=self.start, end=self.end,
-                                        granularity=self.granularity.value,
+                                        granularity=self.timeframe.value.granularity,
                                         price=OandaProvider._PRICE_BID, localize=False)
 
         bid = bid.dropna()
@@ -96,7 +97,7 @@ class OandaProvider(EIProvider):
         print("(3/3) Fetching data.....", flush=True, end="\r")
         mid = OandaProvider._API.get_history(instrument=self.symbol,
                                         start=self.start, end=self.end,
-                                        granularity=self.granularity.value,
+                                        granularity=self.timeframe.value.granularity,
                                         price=OandaProvider._PRICE_MID, localize=False)
 
         mid = mid.dropna()
@@ -117,3 +118,9 @@ class OandaProvider(EIProvider):
         print("                        ", flush=True, end="\r")
 
         return response
+
+    def get_ticker(self, force_download: bool=False) -> EITicker:
+        """Return response in EITicker object"""
+
+        return Ticker(self.symbol, self.start, self.end,
+                      self.timeframe, self._fetch_data(force_download))

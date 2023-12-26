@@ -1,7 +1,8 @@
 """Module of Provider Factory"""
 from datetime import datetime as dt
 
-from ..api import EIProvider, Granularity
+from ...common import Timeframe
+from ..api import EIProvider
 from .oanda import OandaProvider
 
 class ProviderFactory():
@@ -10,9 +11,9 @@ class ProviderFactory():
     @staticmethod
     def create_provider_by_name(name: str, symbol: str,
                                 start: dt, end: dt,
-                                granularity: Granularity) -> EIProvider | None:
+                                timeframe: Timeframe) -> EIProvider | None:
         """Return provider object by name"""
         if name == EIProvider.PROVIDER_OANDA:
-            return OandaProvider(symbol, start, end, granularity)
+            return OandaProvider(symbol, start, end, timeframe)
 
         return None
