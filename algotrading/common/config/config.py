@@ -15,7 +15,7 @@ class Config:
     _CONF_FILE: ClassVar[str] = path.relpath(
         path.join(
             path.dirname(
-                path.relpath(__file__)), '../config/global.cfg'))
+                path.relpath(__file__)), '../../config/global.cfg'))
 
     @staticmethod
     def get_instance(reload: bool=False) -> ConfigData:

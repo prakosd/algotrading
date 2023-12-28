@@ -5,7 +5,7 @@ import pandas as pd
 from v20.errors import ResponseNoField
 import tpqoa
 
-from ...common import config
+from ...common.config import config
 from ..api import EIProvider
 from ...ticker.api import EITicker
 from ...ticker.implementation import Ticker
