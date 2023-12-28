@@ -14,3 +14,28 @@ class Timeframe(Enum):
     HOUR_1    = TimeframeTuple(5, "H1", "1H",  "1 Hour")
     HOUR_4    = TimeframeTuple(6, "H4", "4H",  "4 Hours")
     DAY_1     = TimeframeTuple(7, "D", "1D",  "1 Day")
+
+class TransactionType(Enum):
+    """List of transaction type in Account"""
+    WITHDRAWAL     = -3
+    MARGIN_LOCK    = -2
+    LOSS_TRADE     = -1
+    RESET          = 0
+    PROFIT_TRADE   = 1
+    MARGIN_RELEASE = 2
+    DEPOSIT        = 3
+
+class DealType(Enum):
+    """List of deal type"""
+    BUY  = 1
+    SELL = -1
+
+class OrderType(Enum):
+    """List of possible order type"""
+    MARKET_BUY  = 1
+    MARKET_SELL = -1
+
+class OrderDirection(Enum):
+    """List of possible order direction"""
+    MARKET_IN  = 1
+    MARKET_OUT = -1
