@@ -5,9 +5,9 @@ from typing import ClassVar
 from datetime import datetime as dt
 import pandas as pd
 
-from ...config import config
-from ...common import Timeframe
-from ...ticker import EITicker
+from ...common import config
+from ...common.enums import Timeframe
+from ...ticker.api import EITicker
 
 @dataclass
 class EIProvider(ABC):

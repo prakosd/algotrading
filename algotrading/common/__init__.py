@@ -1,2 +1,2 @@
 """Initialize package"""
-from .enums import Timeframe
+from .config import config

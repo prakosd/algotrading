@@ -5,9 +5,10 @@ import pandas as pd
 from v20.errors import ResponseNoField
 import tpqoa
 
-from ...config import config
+from ...common import config
 from ..api import EIProvider
-from ...ticker import EITicker, Ticker
+from ...ticker.api import EITicker
+from ...ticker.implementation import Ticker
 
 class OandaProvider(EIProvider):
     """Implementation of EIProvider"""

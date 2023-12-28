@@ -1,7 +1,7 @@
 """Module of Provider Factory"""
 from datetime import datetime as dt
 
-from ...common import Timeframe
+from ...common.enums import Timeframe
 from ..api import EIProvider
 from .oanda import OandaProvider
 

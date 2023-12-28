@@ -2,7 +2,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 
-from ...common import Timeframe
+from ...common.enums import Timeframe
 from ..api import EITicker, EITick
 
 plt.style.use("seaborn")
