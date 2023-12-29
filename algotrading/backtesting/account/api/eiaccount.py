@@ -12,7 +12,7 @@ from ....common.enums import TransactionType
 class EIAccount(ABC):
     """Account Entity Interface"""
     BASE_CURRENCY: ClassVar[str] = config.account.base_currency
-    LEVERAGE: ClassVar[float]    = config.account.leverage
+    LEVERAGE: ClassVar[int]      = config.account.leverage
     UNIT_SIZE: ClassVar[int]     = config.account.unit_size
 
     initial_datetime: dt

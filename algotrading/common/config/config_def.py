@@ -12,7 +12,7 @@ class ProviderConfigData:
 class AccountConfigData:
     """Account config data definition"""
     base_currency: str
-    leverage: float
+    leverage: int
     unit_size: int
     margin_call_level: float
     stop_out_level: float
