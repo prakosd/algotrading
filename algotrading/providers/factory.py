@@ -1,9 +1,9 @@
 """Module of Provider Factory"""
 from datetime import datetime as dt
 
-from ...common.enums import Timeframe
-from ..api import EIProvider
-from .oanda import OandaProvider
+from ..common.enums import Timeframe
+from .api import EIProvider
+from .implementation import OandaProvider
 
 class ProviderFactory():
     """Static class to create provider object"""
