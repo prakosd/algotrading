@@ -1,8 +1,8 @@
 """Module of Account Factory"""
 from datetime import datetime as dt
 
-from ..api.eiaccount import EIAccount
-from .account import Account
+from .api import EIAccount
+from .implementation import Account
 
 class AccountFactory():
     """Static class to create account object"""
