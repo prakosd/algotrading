@@ -1,11 +1,11 @@
-"""Module of Account Factory"""
+"""Module of Component Factory"""
 from datetime import datetime as dt
 
-from .api import EIAccount
-from .implementation import Account
+from .account.api import EIAccount
+from .account.implementation import Account
 
-class AccountFactory():
-    """Static class to create account object"""
+class ComponentFactory():
+    """Static class to create component object"""
 
     @staticmethod
     def create_account(initial_datetime: dt, initial_balance: float) -> EIAccount:
