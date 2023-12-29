@@ -9,8 +9,9 @@ algotrading/providers/__pycache__/
 algotrading/providers/api/__pycache__/
 algotrading/providers/implementation/__pycache__/
 algotrading/backtesting/__pycache__/
-algotrading/backtesting/account/__pycache__/
-algotrading/backtesting/account/api/__pycache__/
-algotrading/backtesting/account/implementation/__pycache__/
+algotrading/backtesting/components/__pycache__/
+algotrading/backtesting/components/account/__pycache__/
+algotrading/backtesting/components/account/api/__pycache__/
+algotrading/backtesting/components/account/implementation/__pycache__/
 algotrading/config/providers/oanda.cfg
 algotrading/resources/

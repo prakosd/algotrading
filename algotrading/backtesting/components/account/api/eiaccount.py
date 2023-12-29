@@ -5,8 +5,8 @@ from abc import ABC, abstractmethod
 from typing import ClassVar
 import pandas as pd
 
-from ....common.config import config
-from ....common.enums import TransactionType
+from .....common.config import config
+from .....common.enums import TransactionType
 
 @dataclass
 class EIAccount(ABC):
