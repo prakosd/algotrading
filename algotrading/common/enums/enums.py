@@ -39,3 +39,13 @@ class OrderDirection(Enum):
     """List of possible order direction"""
     MARKET_IN  = 1
     MARKET_OUT = -1
+
+class PositionType(Enum):
+    """List of position type"""
+    LONG_BUY   = 1
+    SHORT_SELL = -1
+
+class PositionStatus(Enum):
+    """List of possible position status"""
+    OPEN  = 1
+    CLOSE = -1

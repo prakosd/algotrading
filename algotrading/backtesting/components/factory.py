@@ -1,12 +1,15 @@
 """Module of Component Factory"""
 from datetime import datetime as dt
 
-from ...common.enums import DealType, OrderType, OrderDirection
+from ...common.enums import DealType, OrderType
+from ...common.enums import OrderDirection, PositionType
 from .account.api import EIAccount
 from .account.implementation import Account
 from .deal.api import EIDeal
 from .order.api import EIOrder
 from .order.implementation import Order
+from .position.api import EIPosition
+from .position.implementation import Position
 
 class ComponentFactory():
     """Static class to create component object"""
@@ -27,3 +30,9 @@ class ComponentFactory():
                      direction: OrderDirection, volume: float, price: float) -> EIOrder:
         """Return new order object"""
         return Order(symbol, datetime, order_type, direction, volume, price)
+
+    @staticmethod
+    def create_position(symbol: str, open_datetime: dt, pos_type: PositionType,
+                        volume: float, price: float, margin: float, comment: str) -> EIPosition:
+        """Return new position object"""
+        return Position(symbol, open_datetime, pos_type, volume, price, margin, comment)

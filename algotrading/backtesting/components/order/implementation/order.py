@@ -10,7 +10,7 @@ from .....common.enums import DealType
 class Order(EIOrder):
     """Implementation of EIOrder"""
 
-    def get_deals(self, index=None) -> list[EIDeal] | EIDeal:
+    def get_deals(self, index: int=None) -> list[EIDeal] | EIDeal:
         """Return list of deals or a deal by index"""
         if index is None:
             return self.deals.copy()
@@ -34,7 +34,7 @@ class Order(EIOrder):
             self.execute()
 
     def profit(self, tick: EITick) -> float:
-        """Return profit from deals on given a tick"""
+        """Return profit on a given tick"""
         point = 0
         for deal in self.deals:
             if deal.type == DealType.BUY:

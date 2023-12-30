@@ -47,7 +47,7 @@ class EIOrder(ABC):
         self.deals = []
 
     @abstractmethod
-    def get_deals(self, index=None) -> list[EIDeal] | EIDeal:
+    def get_deals(self, index: int=None) -> list[EIDeal] | EIDeal:
         """Return list of deals or a deal by index"""
 
     @abstractmethod
@@ -64,7 +64,7 @@ class EIOrder(ABC):
 
     @abstractmethod
     def profit(self, tick: EITick) -> float:
-        """Return profit from deals on given a tick"""
+        """Return profit on a given tick"""
 
     @abstractmethod
     def sum_deals_volume(self) -> float:
