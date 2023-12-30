@@ -15,5 +15,8 @@ algotrading/backtesting/components/account/api/__pycache__/
 algotrading/backtesting/components/account/implementation/__pycache__/
 algotrading/backtesting/components/deal/__pycache__/
 algotrading/backtesting/components/deal/api/__pycache__/
+algotrading/backtesting/components/order/__pycache__/
+algotrading/backtesting/components/order/api/__pycache__/
+algotrading/backtesting/components/order/implementation/__pycache__/
 algotrading/config/providers/oanda.cfg
 algotrading/resources/

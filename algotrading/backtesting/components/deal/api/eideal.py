@@ -18,10 +18,6 @@ class EIDeal(ABC):
     volume: float
     price: float
 
-    def __post_init__(self):
-        """Post initialization"""
-        self.id = EIDeal.generate_id()
-
     @staticmethod
     def reset_id():
         """Reset next id"""
@@ -33,3 +29,7 @@ class EIDeal(ABC):
         new_id = EIDeal._next_id
         EIDeal._next_id += 1
         return new_id
+
+    def __post_init__(self):
+        """Post initialization"""
+        self.id = EIDeal.generate_id()
