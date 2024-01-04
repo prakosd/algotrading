@@ -11,7 +11,7 @@ class ProviderFactory():
     @staticmethod
     def create_provider_by_name(name: str, symbol: str,
                                 start: dt, end: dt,
-                                timeframe: Timeframe) -> EIProvider | None:
+                                timeframe: Timeframe) -> EIProvider:
         """Return provider object by name"""
         if name == EIProvider.PROVIDER_OANDA:
             return OandaProvider(symbol, start, end, timeframe)

@@ -31,12 +31,12 @@ class DealType(Enum):
     SELL = -1
 
 class OrderType(Enum):
-    """List of possible order type"""
+    """List of order type"""
     MARKET_BUY  = 1
     MARKET_SELL = -1
 
 class OrderDirection(Enum):
-    """List of possible order direction"""
+    """List of order direction"""
     MARKET_IN  = 1
     MARKET_OUT = -1
 
@@ -46,6 +46,12 @@ class PositionType(Enum):
     SHORT_SELL = -1
 
 class PositionStatus(Enum):
-    """List of possible position status"""
+    """List of position status"""
     OPEN  = 1
     CLOSE = -1
+
+class MarginHealth(Enum):
+    """List of margin health status"""
+    OK          = 0
+    MARGIN_CALL = 1
+    STOP_OUT    = 2

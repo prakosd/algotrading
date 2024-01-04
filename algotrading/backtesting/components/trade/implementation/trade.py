@@ -77,7 +77,7 @@ class Trade(EITrade):
         profit = 0
         for pos in self.positions:
             if pos.status == PositionStatus.OPEN:
-                profit += pos.profit(tick)
+                profit += pos.get_profit(tick)
 
         return profit
 
@@ -85,7 +85,7 @@ class Trade(EITrade):
         """Return realized net profit"""
         net_profit = 0
         for pos in self.positions:
-            net_profit += pos.profit()
+            net_profit += pos.get_profit()
 
         return net_profit
 
@@ -118,7 +118,7 @@ class Trade(EITrade):
         consecutive_losses = []
 
         for pos in self.positions:
-            profit = pos.profit()
+            profit = pos.get_profit()
             is_long_pos = pos.type == PositionType.LONG_BUY
             report.net_profit += profit
             report.all_position.total += 1
