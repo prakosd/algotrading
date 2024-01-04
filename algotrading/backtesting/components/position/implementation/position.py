@@ -44,7 +44,7 @@ class Position(EIPosition):
         order.execute()
         return order
 
-    def profit(self, tick: EITick=None) -> float:
+    def get_profit(self, tick: EITick=None) -> float:
         """Return realized/floating profit on a given tick"""
         if self.status == PositionStatus.CLOSE or tick is None:
             return self._profit
@@ -71,7 +71,7 @@ class Position(EIPosition):
 
         self.orders.append(self.execute_order(
             tick.datetime, OrderDirection.MARKET_OUT, price))
-        self._profit   = self.profit(tick)
+        self._profit   = self.get_profit(tick)
         self.close_datetime = tick.datetime
         self.status   = PositionStatus.CLOSE
 
@@ -82,7 +82,7 @@ class Position(EIPosition):
         if index is None:
             return self.orders.copy()
 
-        return copy(self.orders[index])     
+        return copy(self.orders[index])
 
     def orders_length(self) -> int:
         """Return number of executed orders"""

@@ -54,7 +54,7 @@ class Trade(EITrade):
 
         return None
 
-    def get_all_position(self) -> list[EIPosition]:
+    def get_positions(self) -> list[EIPosition]:
         """Return a list of all position"""
         return self.positions
 

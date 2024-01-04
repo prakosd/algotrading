@@ -42,7 +42,7 @@ class EITrade(ABC):
         """Return position by id"""
 
     @abstractmethod
-    def get_all_position(self) -> list[EIPosition]:
+    def get_positions(self) -> list[EIPosition]:
         """Return a list of all position"""
 
     @abstractmethod

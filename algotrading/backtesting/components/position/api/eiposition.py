@@ -53,7 +53,7 @@ class EIPosition(ABC):
         """Execute an order"""
 
     @abstractmethod
-    def profit(self, tick: EITick=None) -> float:
+    def get_profit(self, tick: EITick=None) -> float:
         """Return realized/floating profit on a given tick"""
 
     @abstractmethod
