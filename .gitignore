@@ -30,5 +30,7 @@ algotrading/backtesting/strategies/base/api/__pycache__/
 algotrading/backtesting/strategies/base/implementation/__pycache__/
 algotrading/backtesting/strategies/buyandhold/__pycache__/
 algotrading/backtesting/strategies/buyandhold/implementation/__pycache__/
+algotrading/backtesting/strategies/contrarian/__pycache__/
+algotrading/backtesting/strategies/contrarian/implementation/__pycache__/
 algotrading/config/providers/oanda.cfg
 algotrading/resources/
