@@ -373,7 +373,9 @@ class IterativeBase(EIIterativeBase, ABC):
 
             current_drawdown["balance"] = highest["balance"] - \
                 record["balance"]
-            current_drawdown["equity"] = highest["equity"] - record["equity"]
+            current_drawdown["equity"] = highest["equity"] - \
+                record["equity"]
+
             if current_drawdown["balance"] > max_drawdown["balance"]:
                 max_drawdown["balance"] = current_drawdown["balance"]
 
