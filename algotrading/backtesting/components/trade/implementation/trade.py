@@ -176,6 +176,16 @@ class Trade(EITrade):
             if max_consecutive_losses[0] > report.max_consecutive_losses[0]:
                 report.max_consecutive_losses = max_consecutive_losses.copy()
 
+        if max_consecutive_wins != [0, 0]:
+            consecutive_wins.append(max_consecutive_wins[0])
+            max_consecutive_wins[0] = 0
+            max_consecutive_wins[1] = 0
+
+        if max_consecutive_losses != [0, 0]:
+            consecutive_losses.append(max_consecutive_losses[0])
+            max_consecutive_losses[0] = 0
+            max_consecutive_losses[1] = 0
+
         if report.all_position.won > 0:
             report.average_profit = report.gross_profit / report.all_position.won
         if report.all_position.lost > 0:
