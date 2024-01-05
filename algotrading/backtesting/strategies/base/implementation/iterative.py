@@ -33,7 +33,7 @@ class IterativeBase(EIIterativeBase, ABC):
 
     def print_iteration(self, i: int, length: int):
         """Print iteration progress"""
-        print(f"Iteration: {i + 1} of {length} ({int(round(i / length * 100, 0))}%)    ",
+        print(f"Iteration: {i} of {length} ({int(round(i / length * 100, 0))}%)    ",
               flush=True, end="\r")
 
     def start(self, length: int, callback: Callable):
@@ -56,12 +56,12 @@ class IterativeBase(EIIterativeBase, ABC):
             # print every second
             if time.time() - last_time >= 0.5:
                 last_time = time.time()
-                self.print_iteration(i, length)
+                self.print_iteration(i+1, length)
 
+            self.tick_count += 1
             callback(i)
             tick = self.ticker.get_data(datetime=self.data.index[i])
             self.record_equity(tick)
-            self.tick_count += 1
 
             margin_health = self.margin_health(tick)
             if margin_health == MarginHealth.STOP_OUT:
@@ -71,6 +71,7 @@ class IterativeBase(EIIterativeBase, ABC):
                 break
 
         # close all position on the last tick
+        self.tick_count += 1
         if margin_health != MarginHealth.STOP_OUT:
             last_index = length - 1
             last_tick = self.ticker.get_data(
@@ -80,7 +81,7 @@ class IterativeBase(EIIterativeBase, ABC):
             # self.print_account_info(last_tick)
 
         self.is_running = False
-        self.print_iteration(i, length)
+        self.print_iteration(length, length)
         self.populate_report()
 
     def stop(self):
