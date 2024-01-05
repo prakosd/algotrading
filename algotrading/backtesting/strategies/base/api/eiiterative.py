@@ -8,6 +8,8 @@ from .....common.config import config
 from .....common.enums import MarginHealth, PositionType
 from ....components.trade.api import EITrade
 from ....components.position.api import EIPosition
+from ....components.order.api import EIOrder
+from ....components.deal.api import EIDeal
 from .....ticker.api import EITicker, EITick
 from ....components.account.api import EIAccount
 from .....backtesting import BacktestingReport
@@ -123,7 +125,15 @@ class EIIterativeBase(ABC):
 
     @abstractmethod
     def get_positions(self, as_data_frame: bool=True) -> list[EIPosition] | pd.DataFrame:
-        """Return list of positions"""
+        """Return list of position"""
+
+    @abstractmethod
+    def get_orders(self, as_data_frame: bool=True) -> list[EIOrder] | pd.DataFrame:
+        """Return list of order"""
+
+    @abstractmethod
+    def get_deals(self, as_data_frame: bool=True) -> list[EIDeal] | pd.DataFrame:
+        """Return list of deal"""
 
     @abstractmethod
     def get_equity_records(self) -> pd.DataFrame:

@@ -33,3 +33,8 @@ class EIDeal(ABC):
     def __post_init__(self):
         """Post initialization"""
         self.id = EIDeal.generate_id()
+
+    def as_dict(self) -> dict:
+        """Return deal as dictionary"""
+        return {'id': self.id, 'symbol': self.symbol, 'datetime': self.datetime,
+                'type': self.type.name, 'volume': self.volume, 'price': self.price}

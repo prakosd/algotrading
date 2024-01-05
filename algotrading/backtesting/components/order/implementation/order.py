@@ -81,3 +81,9 @@ class Order(EIOrder):
             volume = self.volume - sum_vol
         return EIDeal(self.symbol, self.datetime,
                                             deal_type, volume, price)
+
+    def as_dict(self) -> dict:
+        """Return order as dictionary"""
+        return {'id': self.id, 'symbol': self.symbol, 'datetime': self.datetime,
+                'type': self.type.name, 'direction': self.direction.name,
+                'volume': self.volume, 'price': self.price}

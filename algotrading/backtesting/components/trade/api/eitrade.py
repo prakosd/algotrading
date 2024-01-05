@@ -5,6 +5,8 @@ from datetime import datetime as dt
 
 from ...trade import TradeReport
 from ...position.api import EIPosition
+from ...order.api import EIOrder
+from ...deal.api import EIDeal
 from .....common.enums import PositionType
 from .....ticker.api import EITick
 
@@ -44,6 +46,14 @@ class EITrade(ABC):
     @abstractmethod
     def get_positions(self) -> list[EIPosition]:
         """Return a list of all position"""
+
+    @abstractmethod
+    def get_orders(self) -> list[EIOrder]:
+        """Return a list of all order"""
+
+    @abstractmethod
+    def get_deals(self) -> list[EIDeal]:
+        """Return a list of all deal"""
 
     @abstractmethod
     def get_all_open_position(self) -> list[EIPosition]:

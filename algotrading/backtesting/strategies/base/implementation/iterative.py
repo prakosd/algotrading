@@ -8,6 +8,8 @@ import pandas as pd
 from ..api import EIIterativeBase
 from ....components.account.api import EIAccount
 from ....components.position.api import EIPosition
+from ....components.order.api import EIOrder
+from ....components.deal.api import EIDeal
 from .....common.enums import MarginHealth, PositionType
 from .....ticker.api import EITick
 from .....backtesting import BacktestingReport
@@ -220,6 +222,7 @@ class IterativeBase(EIIterativeBase, ABC):
         return self.data.copy()
 
     def get_positions(self, as_data_frame: bool=True) -> list[EIPosition] | pd.DataFrame:
+        """Return list of position"""
         if len(self.trade.get_positions()) <= 0:
             return None
 
@@ -228,6 +231,28 @@ class IterativeBase(EIIterativeBase, ABC):
                                  for pos in self.trade.get_positions()]).set_index("id")
         else:
             return self.trade.get_positions().copy()
+
+    def get_orders(self, as_data_frame: bool=True) -> list[EIOrder] | pd.DataFrame:
+        """Return list of order"""
+        if len(self.trade.get_orders()) <= 0:
+            return None
+
+        if as_data_frame:
+            return pd.DataFrame([order.as_dict()
+                                 for order in self.trade.get_orders()]).set_index("id")
+        else:
+            return self.trade.get_orders().copy()
+
+    def get_deals(self, as_data_frame: bool=True) -> list[EIDeal] | pd.DataFrame:
+        """Return list of deal"""
+        if len(self.trade.get_deals()) <= 0:
+            return None
+
+        if as_data_frame:
+            return pd.DataFrame([deal.as_dict()
+                                 for deal in self.trade.get_deals()]).set_index("id")
+        else:
+            return self.trade.get_deals().copy()
 
     def get_equity_records(self) -> pd.DataFrame:
         """Return equity and balance history"""

@@ -77,3 +77,7 @@ class EIOrder(ABC):
     @abstractmethod
     def mock_deal(self, random_deal=False) -> EIDeal:
         """Return deals with randomize value in given range"""
+
+    @abstractmethod
+    def as_dict(self) -> dict:
+        """Return order as dictionary"""
