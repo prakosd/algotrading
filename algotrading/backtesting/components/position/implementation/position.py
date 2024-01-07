@@ -52,7 +52,7 @@ class Position(EIPosition):
         profit = 0
         for order in self.orders:
             if order.direction == OrderDirection.MARKET_IN:
-                profit += order.profit(tick)
+                profit += order.get_profit(tick)
 
         return profit
 

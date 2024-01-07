@@ -63,7 +63,7 @@ class EIOrder(ABC):
         """Execute order"""
 
     @abstractmethod
-    def profit(self, tick: EITick) -> float:
+    def get_profit(self, tick: EITick) -> float:
         """Return profit on a given tick"""
 
     @abstractmethod

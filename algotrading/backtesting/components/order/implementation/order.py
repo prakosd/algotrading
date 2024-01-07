@@ -33,7 +33,7 @@ class Order(EIOrder):
             # execute again if order volume is not fulfilled
             self.execute()
 
-    def profit(self, tick: EITick) -> float:
+    def get_profit(self, tick: EITick) -> float:
         """Return profit on a given tick"""
         point = 0
         for deal in self.deals:
