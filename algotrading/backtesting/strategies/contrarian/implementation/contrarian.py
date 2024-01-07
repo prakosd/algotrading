@@ -75,6 +75,16 @@ class ContrarianStrategy(IterativeBase):
             super().plot_equity_records()
             return
 
+        color_buyhold = "slategrey"
+        color_balance = "red"
+        color_equity = "rosybrown"
+        report = self.get_report()
+        if report and report.summary and report.summary.net_profit > 0:
+            color_balance = "green"
+            color_equity = "cadetblue"
+
         title = "Balance vs Equity vs Buy&Hold"
         equity_records = self.get_equity_records()
-        equity_records[["balance", "equity", "buyHold"]].plot(title = title, figsize=(12, 8))
+        equity_records[["buyHold", "equity", "balance"]].plot(
+            title=title, figsize=(12, 8),
+            color=[color_buyhold, color_equity, color_balance])

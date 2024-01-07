@@ -4,6 +4,8 @@
         "axhline",
         "backtesting",
         "buyandhold",
+        "buyhold",
+        "cadetblue",
         "creturns",
         "cumsum",
         "darkgreen",
@@ -25,6 +27,8 @@
         "linestyle",
         "linewidth",
         "oanda",
+        "rosybrown",
+        "slategrey",
         "tpqoa",
         "xlabel",
         "ylabel"
