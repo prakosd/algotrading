@@ -1,14 +1,14 @@
 """Module to set config data definition"""
 from dataclasses import dataclass
 
-@dataclass
+@dataclass(frozen=True)
 class ProviderConfigData:
     """Provider config data definition"""
     data_directory: str
     file_extension: str
     config_path_oanda: str
 
-@dataclass
+@dataclass(frozen=True)
 class AccountConfigData:
     """Account config data definition"""
     base_currency: str
@@ -17,7 +17,7 @@ class AccountConfigData:
     margin_call_level: float
     stop_out_level: float
 
-@dataclass
+@dataclass(frozen=True)
 class DealConfigData:
     """Deal config data definition"""
     is_mock_deal: bool
@@ -26,7 +26,7 @@ class DealConfigData:
     volume_percent_min: int
     volume_percent_max: int
 
-@dataclass
+@dataclass(frozen=True)
 class ConfigData:
     """Provider config data definition"""
     provider: ProviderConfigData
