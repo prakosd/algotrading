@@ -8,6 +8,7 @@ from ...position.api import EIPosition
 from ...order.api import EIOrder
 from ...deal.api import EIDeal
 from .....common.trade import PositionType
+from .....common.symbol import Symbol
 from .....ticker.api import EITick
 
 @dataclass
@@ -26,7 +27,7 @@ class EITrade(ABC):
         """Remove all positions"""
 
     @abstractmethod
-    def open_position(self, symbol: str, open_datetime: dt, pos_type: PositionType,
+    def open_position(self, symbol: Symbol, open_datetime: dt, pos_type: PositionType,
                       volume: float, open_price: float,
                       margin: float, comment: str = None) -> EIPosition:
         """Open and return a new position"""

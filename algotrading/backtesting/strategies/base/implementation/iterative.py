@@ -295,7 +295,7 @@ class IterativeBase(EIIterativeBase, ABC):
             else:
                 current_price = 0
 
-            print(f"symbol: {pos.symbol}, id: {pos.id}, "
+            print(f"symbol: {pos.symbol.value}, id: {pos.id}, "
                   f"time: {pos.open_datetime}, type: {pos.type}, "
                   f"volume: {pos.volume}, openPrice: {pos.open_price()}, "
                   f"currentPrice: {current_price}, profit: {pos.get_profit()}")

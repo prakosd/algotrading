@@ -3,6 +3,7 @@ import copy
 from datetime import datetime as dt
 
 from ...common.trade import Timeframe
+from ...common.symbol import Symbol
 from .buyandhold.implementation import BuyAndHoldStrategy
 from .contrarian.implementation import ContrarianStrategy
 from ...providers import ProviderFactory
@@ -14,7 +15,7 @@ class StrategyFactory():
     """Static class to create strategy object"""
 
     @staticmethod
-    def create_buyandhold(provider_name: str, symbol: str, start_date: dt,
+    def create_buyandhold(provider_name: str, symbol: Symbol, start_date: dt,
                           end_date: dt, timeframe: Timeframe,
                           params: BuyAndHoldParams,
                           force_download_ticker: bool=False) -> BuyAndHoldStrategy:
@@ -33,7 +34,7 @@ class StrategyFactory():
         return BuyAndHoldStrategy(Trade(), ticker, account, params)
 
     @staticmethod
-    def create_contrarian(provider_name: str, symbol: str, start_date: dt,
+    def create_contrarian(provider_name: str, symbol: Symbol, start_date: dt,
                           end_date: dt, timeframe: Timeframe,
                           params: ContrarianParams,
                           include_buyandhold: bool=True,

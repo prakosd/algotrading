@@ -8,6 +8,7 @@ from ...order.api import EIOrder
 from ...deal.api import EIDeal
 from ...position.implementation import Position
 from .....common.trade import PositionType, PositionStatus
+from .....common.symbol import Symbol
 from ...trade import TradeReport
 
 class Trade(EITrade):
@@ -20,7 +21,7 @@ class Trade(EITrade):
 
         self.positions.clear()
 
-    def open_position(self, symbol: str, open_datetime: dt, pos_type: PositionType,
+    def open_position(self, symbol: Symbol, open_datetime: dt, pos_type: PositionType,
                       volume: float, open_price: float,
                       margin: float, comment: str = None) -> EIPosition:
         """Open and return a new position"""
