@@ -16,10 +16,10 @@ class EIProvider(ABC):
     """Provider Entity Interface"""
     _DATA_DIR: ClassVar[str] = config.provider.data_directory
     _FILE_EXT: ClassVar[str] = config.provider.file_extension
-    _PROVIDER_SYMBOLS_DATA_DIR: ClassVar[str] = config.common.data_directory
-    _PROVIDER_SYMBOLS_FILE_EXT: ClassVar[str] = config.common.file_extension
-    _PROVIDER_SYMBOLS_FILENAME: ClassVar[str] = config.common.provider_symbol_filename
-    _PROVIDER_SYMBOLS: ClassVar[pd.DataFrame] = None
+    _SYMBOLS_DATA_DIR: ClassVar[str] = config.common.data_directory
+    _SYMBOLS_FILE_EXT: ClassVar[str] = config.common.file_extension
+    _SYMBOLS_FILENAME: ClassVar[str] = config.common.provider_symbol_filename
+    _SYMBOLS: ClassVar[pd.DataFrame] = None
 
     PROVIDER_OANDA: ClassVar[str] = "OANDA"
 
@@ -29,23 +29,23 @@ class EIProvider(ABC):
     timeframe: Timeframe
 
     @staticmethod
-    def get_provider_symbols(reload: bool=False) -> pd.DataFrame:
+    def get_symbols(reload: bool=False) -> pd.DataFrame:
         """Return list of symbols by provider"""
-        if EIProvider._PROVIDER_SYMBOLS is None or reload:
-            directory = EIProvider._PROVIDER_SYMBOLS_DATA_DIR
-            filename = EIProvider._PROVIDER_SYMBOLS_FILENAME + EIProvider._PROVIDER_SYMBOLS_FILE_EXT
+        if EIProvider._SYMBOLS is None or reload:
+            directory = EIProvider._SYMBOLS_DATA_DIR
+            filename = EIProvider._SYMBOLS_FILENAME + EIProvider._SYMBOLS_FILE_EXT
 
             if os.path.exists(directory + filename):
-                EIProvider._PROVIDER_SYMBOLS = pd.read_csv(directory + filename)
+                EIProvider._SYMBOLS = pd.read_csv(directory + filename)
             else:
                 raise FileNotFoundError(f"{directory + filename}")
 
-        return EIProvider._PROVIDER_SYMBOLS
+        return EIProvider._SYMBOLS
 
     @staticmethod
     def translate_symbol(provider: str, symbol: Symbol, reload: bool=False) -> str:
         """Translate system symbol code to provider's symbol code"""
-        df = EIProvider.get_provider_symbols(reload)
+        df = EIProvider.get_symbols(reload)
         return df.loc[(df['PROVIDER'] == provider)
                       & (df['SYMBOL_CODE'] == symbol.value), 'PROVIDER_CODE'].iloc[0]
 

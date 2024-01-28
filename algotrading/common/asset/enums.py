@@ -9,7 +9,10 @@ class AssetType(Enum):
     BOND      = "BOND"
     STOCK     = "STOCK"
 
-class Currency(Enum):
+class AssetEnum(Enum):
+    """Parent of asset enum type"""
+
+class Currency(AssetEnum):
     """List of currency"""
     AUD = "AUD"
     CAD = "CAD"
@@ -33,7 +36,7 @@ class Currency(Enum):
     USD = "USD"
     ZAR = "ZAR"
 
-class Commodity(Enum):
+class Commodity(AssetEnum):
     """List of commodity"""
     BTC = "BTC"
     BCH = "BCH"
@@ -53,7 +56,7 @@ class Commodity(Enum):
     WTICO = "WTICO"
     WHEAT = "WHEAT"
 
-class Index(Enum):
+class Index(AssetEnum):
     """List of Index"""
     AU200 = "AU200"
     CH20 = "CH20"
@@ -80,7 +83,7 @@ class Index(Enum):
     USB10Y = "USB10Y"
     USB30Y = "USB30Y"
 
-class Stock(Enum):
+class Stock(AssetEnum):
     """List of Stock"""
     AAPL = "AAPL"
     GOOG = "GOOG"
