@@ -11,9 +11,9 @@ from .....common.trade import TransactionType
 @dataclass
 class EIAccount(ABC):
     """Account Entity Interface"""
-    BASE_CURRENCY: ClassVar[str] = config.account.base_currency
-    LEVERAGE: ClassVar[int]      = config.account.leverage
-    UNIT_SIZE: ClassVar[int]     = config.account.unit_size
+    DEPOSIT_CURRENCY: ClassVar[str] = config.account.deposit_currency
+    LEVERAGE: ClassVar[int]         = config.account.leverage
+    UNIT_SIZE: ClassVar[int]        = config.account.unit_size
 
     initial_datetime: dt
     initial_balance: float

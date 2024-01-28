@@ -42,7 +42,7 @@ class Config:
         )
 
         account = AccountConfigData(
-            base_currency     = parser['account']['base_currency'],
+            deposit_currency  = parser['account']['deposit_currency'],
             leverage          = int(parser['account']['leverage']),
             unit_size         = int(parser['account']['unit_size']),
             margin_call_level = float(parser['account']['margin_call_level']),

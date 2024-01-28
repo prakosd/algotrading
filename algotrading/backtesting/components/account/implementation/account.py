@@ -20,7 +20,7 @@ class Account(EIAccount):
                             amount: float, message: str):
         """Commit transaction to the ledger"""
         record = {'datetime': date_time, 'transaction': transaction.name,
-                  'currency': EIAccount.BASE_CURRENCY, 'amount': amount,
+                  'currency': EIAccount.DEPOSIT_CURRENCY, 'amount': amount,
                   'balance': self.actual_balance, 'message': message}
         self.ledger.append(record)
 

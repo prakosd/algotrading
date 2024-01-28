@@ -20,7 +20,7 @@ class ProviderConfigData:
 @dataclass(frozen=True)
 class AccountConfigData:
     """Account config data definition"""
-    base_currency: str
+    deposit_currency: str
     leverage: int
     unit_size: int
     margin_call_level: float
