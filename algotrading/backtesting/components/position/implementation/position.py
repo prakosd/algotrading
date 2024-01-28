@@ -115,7 +115,7 @@ class Position(EIPosition):
 
     def as_dict(self) -> dict:
         """Return position as dictionary"""
-        return {'id': self.id, 'symbol': self.symbol, 'openDatetime': self.open_datetime,
+        return {'id': self.id, 'symbol': self.symbol.value, 'openDatetime': self.open_datetime,
                 'closeDatetime': self.close_datetime, 'type': self.type.name,
                 'volume': self.volume, 'comment': self.comment,
                 'status': self.status.name, 'margin': self.margin, 'profit': self._profit}

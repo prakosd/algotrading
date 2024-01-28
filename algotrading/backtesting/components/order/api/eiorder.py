@@ -6,6 +6,7 @@ from datetime import datetime as dt
 
 from .....common.config import config
 from .....common.trade import OrderType, OrderDirection
+from .....common.symbol import Symbol
 from ...deal.api import EIDeal
 from .....ticker.api import EITick
 
@@ -21,7 +22,7 @@ class EIOrder(ABC):
     _next_id: ClassVar[int] = 0
 
     id: int = field(init=False)
-    symbol: str
+    symbol: Symbol
     datetime: dt
     type: OrderType
     direction: OrderDirection

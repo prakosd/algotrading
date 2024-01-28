@@ -6,6 +6,7 @@ from datetime import datetime as dt
 
 from .....common.trade import PositionType, PositionStatus
 from .....common.trade import OrderDirection
+from .....common.symbol import Symbol
 from ...order.api import EIOrder
 from .....ticker.api import EITick
 
@@ -15,7 +16,7 @@ class EIPosition(ABC):
     _next_id: ClassVar[int] = 0
 
     id: int = field(init=False)
-    symbol: str
+    symbol: Symbol
     open_datetime: dt
     close_datetime: dt = field(init=False)
     type: PositionType

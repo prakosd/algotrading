@@ -84,6 +84,6 @@ class Order(EIOrder):
 
     def as_dict(self) -> dict:
         """Return order as dictionary"""
-        return {'id': self.id, 'symbol': self.symbol, 'datetime': self.datetime,
+        return {'id': self.id, 'symbol': self.symbol.value, 'datetime': self.datetime,
                 'type': self.type.name, 'direction': self.direction.name,
                 'volume': self.volume, 'price': self.price}

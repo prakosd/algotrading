@@ -5,6 +5,7 @@ from typing import ClassVar
 from datetime import datetime as dt
 
 from .....common.trade import DealType
+from .....common.symbol import Symbol
 
 @dataclass
 class EIDeal(ABC):
@@ -12,7 +13,7 @@ class EIDeal(ABC):
     _next_id: ClassVar[int] = 0
 
     id: int = field(init=False)
-    symbol: str
+    symbol: Symbol
     datetime: dt
     type: DealType
     volume: float
@@ -36,5 +37,5 @@ class EIDeal(ABC):
 
     def as_dict(self) -> dict:
         """Return deal as dictionary"""
-        return {'id': self.id, 'symbol': self.symbol, 'datetime': self.datetime,
+        return {'id': self.id, 'symbol': self.symbol.value, 'datetime': self.datetime,
                 'type': self.type.name, 'volume': self.volume, 'price': self.price}
