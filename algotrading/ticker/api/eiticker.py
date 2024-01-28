@@ -5,7 +5,7 @@ from datetime import datetime as dt
 from typing import Self
 import pandas as pd
 
-from ...common.enums import Timeframe
+from ...common.trade import Timeframe
 from .eitick import EITick
 
 @dataclass

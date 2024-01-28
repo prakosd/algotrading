@@ -10,7 +10,7 @@ from ....components.account.api import EIAccount
 from ....components.position.api import EIPosition
 from ....components.order.api import EIOrder
 from ....components.deal.api import EIDeal
-from .....common.enums import MarginHealth, PositionType
+from .....common.trade import MarginHealth, PositionType
 from .....ticker.api import EITick
 from .....backtesting import BacktestingReport
 

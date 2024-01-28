@@ -6,7 +6,7 @@ import pandas as pd
 from ...base.implementation import IterativeBase
 from ....strategies import ContrarianParams
 from ....strategies.buyandhold.implementation import BuyAndHoldStrategy
-from .....common.enums import PositionType
+from .....common.trade import PositionType
 
 @dataclass
 class ContrarianStrategy(IterativeBase):

@@ -6,7 +6,7 @@ from typing import ClassVar
 import pandas as pd
 
 from .....common.config import config
-from .....common.enums import TransactionType
+from .....common.trade import TransactionType
 
 @dataclass
 class EIAccount(ABC):

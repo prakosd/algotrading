@@ -1,7 +1,9 @@
 algotrading/__pycache__/
 algotrading/common/__pycache__/
 algotrading/common/config/__pycache__/
-algotrading/common/enums/__pycache__/
+algotrading/common/trade/__pycache__/
+algotrading/common/symbol/__pycache__/
+algotrading/common/asset/__pycache__/
 algotrading/ticker/__pycache__/
 algotrading/ticker/api/__pycache__/
 algotrading/ticker/implementation/__pycache__/

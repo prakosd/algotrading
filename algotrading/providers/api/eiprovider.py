@@ -6,7 +6,7 @@ from datetime import datetime as dt
 import pandas as pd
 
 from ...common.config import config
-from ...common.enums import Timeframe
+from ...common.trade import Timeframe
 from ...ticker.api import EITicker
 
 @dataclass

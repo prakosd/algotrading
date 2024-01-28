@@ -4,8 +4,8 @@ from abc import ABC, abstractmethod
 from typing import ClassVar
 from datetime import datetime as dt
 
-from .....common.enums import PositionType, PositionStatus
-from .....common.enums import OrderDirection
+from .....common.trade import PositionType, PositionStatus
+from .....common.trade import OrderDirection
 from ...order.api import EIOrder
 from .....ticker.api import EITick
 

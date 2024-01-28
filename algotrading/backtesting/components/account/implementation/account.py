@@ -3,7 +3,7 @@ from datetime import datetime as dt
 import pandas as pd
 
 from ..api import EIAccount
-from .....common.enums import TransactionType
+from .....common.trade import TransactionType
 
 class Account(EIAccount):
     """Implementation of EIAccount"""

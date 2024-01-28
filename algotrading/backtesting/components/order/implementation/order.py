@@ -5,7 +5,7 @@ import random
 from ..api import EIOrder
 from ...deal.api import EIDeal
 from .....ticker.api import EITick
-from .....common.enums import DealType
+from .....common.trade import DealType
 
 class Order(EIOrder):
     """Implementation of EIOrder"""

@@ -2,7 +2,7 @@
 import copy
 from datetime import datetime as dt
 
-from ...common.enums import Timeframe
+from ...common.trade import Timeframe
 from .buyandhold.implementation import BuyAndHoldStrategy
 from .contrarian.implementation import ContrarianStrategy
 from ...providers import ProviderFactory

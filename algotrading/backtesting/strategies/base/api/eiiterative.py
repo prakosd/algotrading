@@ -5,7 +5,7 @@ from typing import ClassVar, Callable
 import pandas as pd
 
 from .....common.config import config
-from .....common.enums import MarginHealth, PositionType
+from .....common.trade import MarginHealth, PositionType
 from ....components.trade.api import EITrade
 from ....components.position.api import EIPosition
 from ....components.order.api import EIOrder

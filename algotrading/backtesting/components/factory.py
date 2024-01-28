@@ -1,8 +1,8 @@
 """Module of Component Factory"""
 from datetime import datetime as dt
 
-from ...common.enums import DealType, OrderType
-from ...common.enums import OrderDirection, PositionType
+from ...common.trade import DealType, OrderType
+from ...common.trade import OrderDirection, PositionType
 from .account.api import EIAccount
 from .account.implementation import Account
 from .deal.api import EIDeal

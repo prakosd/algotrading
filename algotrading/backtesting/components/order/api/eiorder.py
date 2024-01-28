@@ -5,7 +5,7 @@ from typing import ClassVar
 from datetime import datetime as dt
 
 from .....common.config import config
-from .....common.enums import OrderType, OrderDirection
+from .....common.trade import OrderType, OrderDirection
 from ...deal.api import EIDeal
 from .....ticker.api import EITick
 

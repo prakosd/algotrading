@@ -6,8 +6,8 @@ from ..api import EIPosition
 from ...order.api import EIOrder
 from .....ticker.api import EITick
 from ...order.implementation import Order
-from .....common.enums import OrderDirection, OrderType
-from .....common.enums import PositionType, PositionStatus
+from .....common.trade import OrderDirection, OrderType
+from .....common.trade import PositionType, PositionStatus
 
 class Position(EIPosition):
     """Implementation of EIPosition"""

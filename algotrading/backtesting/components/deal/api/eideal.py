@@ -4,7 +4,7 @@ from abc import ABC
 from typing import ClassVar
 from datetime import datetime as dt
 
-from .....common.enums import DealType
+from .....common.trade import DealType
 
 @dataclass
 class EIDeal(ABC):

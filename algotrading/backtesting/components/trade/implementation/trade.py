@@ -7,7 +7,7 @@ from ...position.api import EIPosition
 from ...order.api import EIOrder
 from ...deal.api import EIDeal
 from ...position.implementation import Position
-from .....common.enums import PositionType, PositionStatus
+from .....common.trade import PositionType, PositionStatus
 from ...trade import TradeReport
 
 class Trade(EITrade):
