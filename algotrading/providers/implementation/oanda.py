@@ -38,7 +38,8 @@ class OandaProvider(EIProvider):
 
     def get_filename(self) -> str:
         """Generate and return filename of saved response"""
-        name = f"OANDA_{self.symbol}_{self.start}_{self.end}_{self.timeframe.value.description}"
+        name = (f"{EIProvider.PROVIDER_OANDA}_{self.symbol.value}_"
+                f"{self.start}_{self.end}_{self.timeframe.value.description}")
         filename = name + EIProvider._FILE_EXT
 
         return filename
@@ -67,8 +68,9 @@ class OandaProvider(EIProvider):
 
     def _prepare_data(self) -> pd.DataFrame:
         print("(1/3) Fetching data...", flush=True, end="\r")
+        symbol_oanda = EIProvider.translate_symbol(EIProvider.PROVIDER_OANDA, self.symbol)
         try:
-            ask = OandaProvider._API.get_history(instrument=self.symbol,
+            ask = OandaProvider._API.get_history(instrument=symbol_oanda,
                                             start=self.start, end=self.end,
                                             granularity=self.timeframe.value.granularity,
                                             price=OandaProvider._PRICE_ASK, localize=False)
@@ -85,7 +87,7 @@ class OandaProvider(EIProvider):
         ask = ask.rename(columns={"c": "ask"})
 
         print("(2/3) Fetching data....", flush=True, end="\r")
-        bid = OandaProvider._API.get_history(instrument=self.symbol,
+        bid = OandaProvider._API.get_history(instrument=symbol_oanda,
                                         start=self.start, end=self.end,
                                         granularity=self.timeframe.value.granularity,
                                         price=OandaProvider._PRICE_BID, localize=False)
@@ -96,7 +98,7 @@ class OandaProvider(EIProvider):
         bid = bid.rename(columns={"c": "bid"})
 
         print("(3/3) Fetching data.....", flush=True, end="\r")
-        mid = OandaProvider._API.get_history(instrument=self.symbol,
+        mid = OandaProvider._API.get_history(instrument=symbol_oanda,
                                         start=self.start, end=self.end,
                                         granularity=self.timeframe.value.granularity,
                                         price=OandaProvider._PRICE_MID, localize=False)

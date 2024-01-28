@@ -63,7 +63,7 @@ class Ticker(EITicker):
         if self.data is None:
             print("No data to plot")
         else:
-            title = f"{self.symbol} - ({self.timeframe.value.description})"
+            title = f"{self.symbol.value} - ({self.timeframe.value.description})"
             self.data.mid.plot(title=title, figsize=(12, 8))
 
     def resample(self, to_timeframe: Timeframe) -> pd.DataFrame | None:
@@ -77,12 +77,12 @@ class Ticker(EITicker):
         if tf_end_id > tf_start_id:
             self.data = self.data.resample(
                 to_timeframe.value.resample, label="right").last().ffill()
-            print(f"{self.symbol} - Resampling {self.timeframe.value.description} -> "
+            print(f"{self.symbol.value} - Resampling {self.timeframe.value.description} -> "
                   f"{to_timeframe.value.description} successful")
             self.timeframe = to_timeframe
             return self.data.copy()
 
-        print(f"{self.symbol} - Resampling to lower and equal timeframe is not allowed. "
+        print(f"{self.symbol.value} - Resampling to lower and equal timeframe is not allowed. "
               f"{self.timeframe.value.description} -> {to_timeframe.value.description}")
         return None
 
@@ -94,8 +94,8 @@ class Ticker(EITicker):
         tf_self_id = self.timeframe.value.id
         tf_them_id = ticker.timeframe.value.id
 
-        symbol_self = self.symbol
-        symbol_them = ticker.symbol
+        symbol_self = self.symbol.value
+        symbol_them = ticker.symbol.value
 
         if tf_self_id == tf_them_id and symbol_self == symbol_them:
             self.data = pd.concat(
@@ -122,7 +122,7 @@ class Ticker(EITicker):
         by_hour["color"] = by_hour.apply(self._produce_color, axis=1)
 
         if plot_data:
-            title = f"{self.symbol} - by Hour"
+            title = f"{self.symbol.value} - by Hour"
             by_hour.volume.plot(kind="bar", title=title,
                                 figsize=(12, 8), fontsize=13,
                                 color=by_hour["color"])

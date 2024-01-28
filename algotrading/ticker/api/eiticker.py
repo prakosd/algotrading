@@ -6,12 +6,13 @@ from typing import Self
 import pandas as pd
 
 from ...common.trade import Timeframe
+from ...common.symbol import Symbol
 from .eitick import EITick
 
 @dataclass
 class EITicker(ABC):
     """Ticker Entity Interface"""
-    symbol: str
+    symbol: Symbol
     start: dt
     end: dt
     timeframe: Timeframe
