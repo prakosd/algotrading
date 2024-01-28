@@ -5,7 +5,8 @@ from os import path
 import configparser
 import ast
 
-from .config_def import ConfigData, ProviderConfigData
+from .config_def import ConfigData
+from .config_def import CommonConfigData, ProviderConfigData
 from .config_def import AccountConfigData, DealConfigData
 
 @dataclass
@@ -25,6 +26,11 @@ class Config:
 
         parser = configparser.ConfigParser()
         parser.read(Config._CONF_FILE)
+
+        common = CommonConfigData(
+            data_directory    = parser['common']['data_directory'],
+            file_extension    = parser['common']['file_extension'],
+        )
 
         provider = ProviderConfigData(
             data_directory    = parser['resources']['data_directory'],
@@ -48,7 +54,7 @@ class Config:
             volume_percent_max = int(parser['deal']['volume_percent_max'])
         )
 
-        Config._instance = ConfigData(provider, account, deal)
+        Config._instance = ConfigData(common, provider, account, deal)
         return Config._instance
 
 config: ConfigData = Config.get_instance()

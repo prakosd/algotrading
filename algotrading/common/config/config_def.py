@@ -2,6 +2,12 @@
 from dataclasses import dataclass
 
 @dataclass(frozen=True)
+class CommonConfigData:
+    """Common config data definition"""
+    data_directory: str
+    file_extension: str
+
+@dataclass(frozen=True)
 class ProviderConfigData:
     """Provider config data definition"""
     data_directory: str
@@ -29,6 +35,7 @@ class DealConfigData:
 @dataclass(frozen=True)
 class ConfigData:
     """Provider config data definition"""
+    common: CommonConfigData
     provider: ProviderConfigData
     account: AccountConfigData
     deal: DealConfigData
