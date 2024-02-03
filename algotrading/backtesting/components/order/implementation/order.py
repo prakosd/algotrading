@@ -4,6 +4,7 @@ import random
 
 from ..api import EIOrder
 from ...deal.api import EIDeal
+from ...deal.implementation import Deal
 from .....ticker.api import EITick
 from .....common.trade import DealType
 
@@ -67,8 +68,8 @@ class Order(EIOrder):
         deal_type = DealType.BUY if self.type.value > 0 else DealType.SELL
 
         if not random_deal:
-            return EIDeal(self.symbol, self.datetime,
-                                                deal_type, self.volume, self.price)
+            return Deal(self.symbol, self.datetime,
+                        deal_type, self.volume, self.price)
 
         price = self.price + (random.randint(
             EIOrder.SLIPPAGE_POINT.get("min"),
@@ -79,8 +80,8 @@ class Order(EIOrder):
         sum_vol = self.sum_deals_volume()
         if sum_vol + volume > self.volume:
             volume = self.volume - sum_vol
-        return EIDeal(self.symbol, self.datetime,
-                                            deal_type, volume, price)
+        return Deal(self.symbol, self.datetime,
+                    deal_type, volume, price)
 
     def as_dict(self) -> dict:
         """Return order as dictionary"""

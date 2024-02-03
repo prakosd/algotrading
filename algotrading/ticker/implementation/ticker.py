@@ -4,6 +4,7 @@ import pandas as pd
 
 from ...common.trade import Timeframe
 from ..api import EITicker, EITick
+from .tick import Tick
 
 plt.style.use("seaborn")
 
@@ -32,7 +33,7 @@ class Ticker(EITicker):
         if row is None:
             return None
 
-        return EITick(self.symbol, row.name,
+        return Tick(self.symbol, row.name,
                     row.ask, row.bid, row.mid,
                     int(row.volume), int(row.digit),
                     int(row.spread))

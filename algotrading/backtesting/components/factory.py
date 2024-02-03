@@ -7,6 +7,7 @@ from ...common.symbol import Symbol
 from .account.api import EIAccount
 from .account.implementation import Account
 from .deal.api import EIDeal
+from .deal.implementation import Deal
 from .order.api import EIOrder
 from .order.implementation import Order
 from .position.api import EIPosition
@@ -26,7 +27,7 @@ class ComponentFactory():
     def create_deal(symbol: Symbol, datetime: dt, deal_type: DealType,
                     volume: float, price: float) -> EIDeal:
         """Return new deal object"""
-        return EIDeal(symbol, datetime, deal_type, volume, price)
+        return Deal(symbol, datetime, deal_type, volume, price)
 
     @staticmethod
     def create_order(symbol: Symbol, datetime: dt, order_type: OrderType,
