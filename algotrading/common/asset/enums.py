@@ -1,18 +1,10 @@
-"""Module for enums"""
+"""Module for Asset Code Enum"""
 from enum import Enum
 
-class AssetType(Enum):
-    """List of asset type"""
-    CURRENCY  = "CURRENCY"
-    COMMODITY = "COMMODITY"
-    INDEX     = "INDEX"
-    BOND      = "BOND"
-    STOCK     = "STOCK"
+class AssetCode(Enum):
+    """Parent of asset code enum"""
 
-class AssetEnum(Enum):
-    """Parent of asset enum type"""
-
-class Currency(AssetEnum):
+class Currency(AssetCode):
     """List of currency"""
     AUD = "AUD"
     CAD = "CAD"
@@ -36,7 +28,7 @@ class Currency(AssetEnum):
     USD = "USD"
     ZAR = "ZAR"
 
-class Commodity(AssetEnum):
+class Commodity(AssetCode):
     """List of commodity"""
     BTC = "BTC"
     BCH = "BCH"
@@ -56,7 +48,7 @@ class Commodity(AssetEnum):
     WTICO = "WTICO"
     WHEAT = "WHEAT"
 
-class Index(AssetEnum):
+class Index(AssetCode):
     """List of Index"""
     AU200 = "AU200"
     CH20 = "CH20"
@@ -83,7 +75,7 @@ class Index(AssetEnum):
     USB10Y = "USB10Y"
     USB30Y = "USB30Y"
 
-class Stock(AssetEnum):
+class Stock(AssetCode):
     """List of Stock"""
     AAPL = "AAPL"
     GOOG = "GOOG"

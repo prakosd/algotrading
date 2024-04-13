@@ -6,7 +6,7 @@ import os.path
 import pandas as pd
 
 from ...common.config import config
-from ...common.asset import AssetType, AssetEnum
+from ...common.asset import AssetType, AssetCode
 
 @dataclass
 class EIAsset(ABC):
@@ -19,12 +19,12 @@ class EIAsset(ABC):
     _TYPE: ClassVar[str] = "TYPE"
     _NAME: ClassVar[str] = "NAME"
 
-    code: AssetEnum
+    code: AssetCode
     type: AssetType = field(init=False)
     name: str = field(init=False)
 
     @staticmethod
-    def get_assets(code: AssetEnum=None, asset_type: AssetType=None,
+    def get_assets(code: AssetCode=None, asset_type: AssetType=None,
                    reload: bool=False) -> pd.DataFrame:
         """Return list of asset"""
         if EIAsset._DATA is None or reload:

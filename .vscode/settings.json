@@ -26,6 +26,7 @@
         "figsize",
         "fillna",
         "fontsize",
+        "FOREX",
         "iloc",
         "linestyle",
         "linewidth",
