@@ -3,9 +3,26 @@ from enum import Enum
 
 class AssetCode(Enum):
     """Parent of asset code enum"""
+    @classmethod
+    def _missing_(cls, value):
+        if Currency.has_value(value):
+            return Currency(value)
+        elif Commodity.has_value(value):
+            return Commodity(value)
+        elif Index.has_value(value):
+            return Index(value)
+        elif Stock.has_value(value):
+            return Stock(value)
+
+        return super()._missing_(value)
 
 class Currency(AssetCode):
     """List of currency"""
+    @classmethod
+    def has_value(cls, value):
+        """return true if value exist"""
+        return value in cls._value2member_map_
+
     AUD = "AUD"
     CAD = "CAD"
     CHF = "CHF"
@@ -30,6 +47,11 @@ class Currency(AssetCode):
 
 class Commodity(AssetCode):
     """List of commodity"""
+    @classmethod
+    def has_value(cls, value):
+        """return true if value exist"""
+        return value in cls._value2member_map_
+
     BTC = "BTC"
     BCH = "BCH"
     BCO = "BCO"
@@ -50,6 +72,11 @@ class Commodity(AssetCode):
 
 class Index(AssetCode):
     """List of Index"""
+    @classmethod
+    def has_value(cls, value):
+        """return true if value exist"""
+        return value in cls._value2member_map_
+
     AU200 = "AU200"
     CH20 = "CH20"
     CHINAH = "CHINAH"
@@ -77,5 +104,10 @@ class Index(AssetCode):
 
 class Stock(AssetCode):
     """List of Stock"""
+    @classmethod
+    def has_value(cls, value):
+        """return true if value exist"""
+        return value in cls._value2member_map_
+
     AAPL = "AAPL"
     GOOG = "GOOG"
