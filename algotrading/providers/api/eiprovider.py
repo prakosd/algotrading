@@ -8,7 +8,7 @@ import pandas as pd
 
 from ...common.config import config
 from ...common.trade import Timeframe
-from ...common.symbol import Symbol
+from ...common.asset import AssetPairCode as Symbol
 from ...ticker.api import EITicker
 
 @dataclass

@@ -3,7 +3,7 @@ import copy
 from datetime import datetime as dt
 
 from ...common.trade import Timeframe
-from ...common.symbol import Symbol
+from ...common.asset import AssetPairCode as Symbol
 from .buyandhold.implementation import BuyAndHoldStrategy
 from .contrarian.implementation import ContrarianStrategy
 from ...providers import ProviderFactory

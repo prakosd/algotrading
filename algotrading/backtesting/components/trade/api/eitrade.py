@@ -8,7 +8,7 @@ from ...position.api import EIPosition
 from ...order.api import EIOrder
 from ...deal.api import EIDeal
 from .....common.trade import PositionType
-from .....common.symbol import Symbol
+from .....common.asset import AssetPairCode as Symbol
 from .....ticker.api import EITick
 
 @dataclass

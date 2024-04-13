@@ -6,7 +6,7 @@ from datetime import datetime as dt
 
 from .....common.trade import PositionType, PositionStatus
 from .....common.trade import OrderDirection
-from .....common.symbol import Symbol
+from .....common.asset import AssetPairCode as Symbol
 from ...order.api import EIOrder
 from .....ticker.api import EITick
 

@@ -6,7 +6,7 @@ from typing import Self
 import pandas as pd
 
 from ...common.trade import Timeframe
-from ...common.symbol import Symbol
+from ...common.asset import AssetPairCode as Symbol
 from .eitick import EITick
 
 @dataclass

@@ -3,7 +3,7 @@ from datetime import datetime as dt
 
 from ...common.trade import DealType, OrderType
 from ...common.trade import OrderDirection, PositionType
-from ...common.symbol import Symbol
+from ...common.asset import AssetPairCode as Symbol
 from .account.api import EIAccount
 from .account.implementation import Account
 from .deal.api import EIDeal

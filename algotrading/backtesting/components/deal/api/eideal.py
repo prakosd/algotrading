@@ -5,7 +5,7 @@ from typing import ClassVar
 from datetime import datetime as dt
 
 from .....common.trade import DealType
-from .....common.symbol import Symbol
+from .....common.asset import AssetPairCode as Symbol
 
 @dataclass
 class EIDeal(ABC):

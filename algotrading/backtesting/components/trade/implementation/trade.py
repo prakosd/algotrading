@@ -8,7 +8,7 @@ from ...order.api import EIOrder
 from ...deal.api import EIDeal
 from ...position.implementation import Position
 from .....common.trade import PositionType, PositionStatus
-from .....common.symbol import Symbol
+from .....common.asset import AssetPairCode as Symbol
 from ...trade import TradeReport
 
 class Trade(EITrade):
