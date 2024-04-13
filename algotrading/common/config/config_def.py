@@ -7,7 +7,7 @@ class CommonConfigData:
     data_directory: str
     file_extension: str
     asset_filename: str
-    symbol_filename: str
+    asset_pair_filename: str
     provider_symbol_filename: str
 
 @dataclass(frozen=True)

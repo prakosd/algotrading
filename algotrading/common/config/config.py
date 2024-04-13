@@ -31,7 +31,7 @@ class Config:
             data_directory           = parser['common']['data_directory'],
             file_extension           = parser['common']['file_extension'],
             asset_filename           = parser['common']['asset_filename'],
-            symbol_filename          = parser['common']['symbol_filename'],
+            asset_pair_filename      = parser['common']['asset_pair_filename'],
             provider_symbol_filename = parser['common']['provider_symbol_filename']
         )
 
