@@ -29,11 +29,11 @@ class Config:
         parser.read(Config._CONF_FILE)
 
         common = CommonConfigData(
-            data_directory           = parser['common']['data_directory'],
-            file_extension           = parser['common']['file_extension'],
-            asset_filename           = parser['common']['asset_filename'],
-            asset_pair_filename      = parser['common']['asset_pair_filename'],
-            provider_symbol_filename = parser['common']['provider_symbol_filename']
+            data_directory               = parser['common']['data_directory'],
+            file_extension               = parser['common']['file_extension'],
+            asset_filename               = parser['common']['asset_filename'],
+            asset_pair_filename          = parser['common']['asset_pair_filename'],
+            provider_asset_pair_filename = parser['common']['provider_asset_pair_filename']
         )
 
         file_manager = FileManagerConfigData(

@@ -23,7 +23,7 @@ class EIFileManager(ABC):
             data = []
             for file in sorted(os.listdir(EIFileManager._DATA_DIR)):
                 basename = os.path.basename(file)
-                data.append((basename, os.path.splitext(basename)[1][1:]))
+                data.append((basename, os.path.splitext(basename)[1]))
 
             EIFileManager._DATA = pd.DataFrame(data,
                                                columns=[EIFileManager._NAME,
