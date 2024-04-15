@@ -11,6 +11,11 @@ class CommonConfigData:
     provider_symbol_filename: str
 
 @dataclass(frozen=True)
+class FileManagerConfigData:
+    """File Manager config data definition"""
+    data_directory: str
+
+@dataclass(frozen=True)
 class ProviderConfigData:
     """Provider config data definition"""
     data_directory: str
@@ -39,6 +44,7 @@ class DealConfigData:
 class ConfigData:
     """Provider config data definition"""
     common: CommonConfigData
+    file_manager: FileManagerConfigData
     provider: ProviderConfigData
     account: AccountConfigData
     deal: DealConfigData

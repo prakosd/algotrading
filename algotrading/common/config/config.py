@@ -8,6 +8,7 @@ import ast
 from .config_def import ConfigData
 from .config_def import CommonConfigData, ProviderConfigData
 from .config_def import AccountConfigData, DealConfigData
+from .config_def import FileManagerConfigData
 
 @dataclass
 class Config:
@@ -35,6 +36,10 @@ class Config:
             provider_symbol_filename = parser['common']['provider_symbol_filename']
         )
 
+        file_manager = FileManagerConfigData(
+            data_directory    = parser['file_manager']['data_directory']
+        )
+
         provider = ProviderConfigData(
             data_directory    = parser['resources']['data_directory'],
             file_extension    = parser['resources']['file_extension'],
@@ -57,7 +62,7 @@ class Config:
             volume_percent_max = int(parser['deal']['volume_percent_max'])
         )
 
-        Config._instance = ConfigData(common, provider, account, deal)
+        Config._instance = ConfigData(common, file_manager, provider, account, deal)
         return Config._instance
 
 config: ConfigData = Config.get_instance()
