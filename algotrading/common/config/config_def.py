@@ -8,7 +8,7 @@ class CommonConfigData:
     file_extension: str
     asset_filename: str
     asset_pair_filename: str
-    provider_asset_pair_filename: str
+    asset_pair_provider_filename: str
 
 @dataclass(frozen=True)
 class FileManagerConfigData:

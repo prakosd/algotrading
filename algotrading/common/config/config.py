@@ -33,7 +33,7 @@ class Config:
             file_extension               = parser['common']['file_extension'],
             asset_filename               = parser['common']['asset_filename'],
             asset_pair_filename          = parser['common']['asset_pair_filename'],
-            provider_asset_pair_filename = parser['common']['provider_asset_pair_filename']
+            asset_pair_provider_filename = parser['common']['asset_pair_provider_filename']
         )
 
         file_manager = FileManagerConfigData(
