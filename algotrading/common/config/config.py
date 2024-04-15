@@ -37,13 +37,12 @@ class Config:
         )
 
         file_manager = FileManagerConfigData(
-            data_directory    = parser['file_manager']['data_directory']
+            data_directory    = parser['file_manager']['data_directory'],
+            file_extension    = parser['file_manager']['file_extension']
         )
 
         provider = ProviderConfigData(
-            data_directory    = parser['resources']['data_directory'],
-            file_extension    = parser['resources']['file_extension'],
-            config_path_oanda = parser['oanda']['config_path']
+            oanda_config_path = parser['provider']['oanda_config_path']
         )
 
         account = AccountConfigData(

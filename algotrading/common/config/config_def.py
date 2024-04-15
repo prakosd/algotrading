@@ -14,13 +14,12 @@ class CommonConfigData:
 class FileManagerConfigData:
     """File Manager config data definition"""
     data_directory: str
+    file_extension: str
 
 @dataclass(frozen=True)
 class ProviderConfigData:
     """Provider config data definition"""
-    data_directory: str
-    file_extension: str
-    config_path_oanda: str
+    oanda_config_path: str
 
 @dataclass(frozen=True)
 class AccountConfigData:

@@ -10,10 +10,12 @@ from ...common.config import config
 @dataclass
 class EIFileManager(ABC):
     """File Manager Entity Interface"""
-    _DATA_DIR: ClassVar[str] = config.file_manager.data_directory
     _DATA: ClassVar[pd.DataFrame] = None
     _NAME: ClassVar[str] = "NAME"
     _EXT: ClassVar[str] = "EXT"
+
+    DATA_DIR: ClassVar[str] = config.file_manager.data_directory
+    FILE_EXT: ClassVar[str] = config.file_manager.file_extension
 
     @staticmethod
     def find_files(name: str=None,
@@ -21,7 +23,10 @@ class EIFileManager(ABC):
         """Return list of file"""
         if EIFileManager._DATA is None or reload:
             data = []
-            for file in sorted(os.listdir(EIFileManager._DATA_DIR)):
+            if not os.path.exists(EIFileManager.DATA_DIR):
+                os.mkdir(EIFileManager.DATA_DIR)
+
+            for file in sorted(os.listdir(EIFileManager.DATA_DIR)):
                 basename = os.path.basename(file)
                 data.append((basename, os.path.splitext(basename)[1]))
 
@@ -45,18 +50,23 @@ class EIFileManager(ABC):
         df = EIFileManager.find_files(reload=reload)
         df = df[df[EIFileManager._NAME] == name]
 
-        if len(df) == 0:
+        if df is None or df.empty:
             return False
 
         return True
 
     @staticmethod
-    def read_csv(name: str) -> pd.DataFrame:
+    def read_csv(name: str, date_index_col: str=None) -> pd.DataFrame:
         """Return data from csv file as DataFrame"""
         if not EIFileManager.exist(name, reload=True):
             return None
 
-        return pd.read_csv(EIFileManager._DATA_DIR + name)
+        if date_index_col is None:
+            return pd.read_csv(EIFileManager.DATA_DIR + name)
+
+        return pd.read_csv(EIFileManager.DATA_DIR + name,
+                           parse_dates=[date_index_col],
+                           index_col=date_index_col)
 
     @staticmethod
     def write_csv(name: str, data: pd.DataFrame) -> bool:
@@ -64,7 +74,7 @@ class EIFileManager(ABC):
         if EIFileManager.exist(name, reload=True):
             raise FileExistsError
 
-        data.to_csv(EIFileManager._DATA_DIR + name, index=False)
+        data.to_csv(EIFileManager.DATA_DIR + name, index=False)
         if EIFileManager.exist(name, reload=True):
             return True
 
@@ -76,7 +86,7 @@ class EIFileManager(ABC):
         if not EIFileManager.exist(name, reload=True):
             return False
 
-        os.remove(EIFileManager._DATA_DIR + name)
+        os.remove(EIFileManager.DATA_DIR + name)
         if not EIFileManager.exist(name, reload=True):
             return True
 

@@ -14,11 +14,9 @@ from ...ticker.api import EITicker
 @dataclass
 class EIProvider(ABC):
     """Provider Entity Interface"""
-    _DATA_DIR: ClassVar[str] = config.provider.data_directory
-    _FILE_EXT: ClassVar[str] = config.provider.file_extension
-    _SYMBOLS_DATA_DIR: ClassVar[str] = config.common.data_directory
-    _SYMBOLS_FILE_EXT: ClassVar[str] = config.common.file_extension
-    _SYMBOLS_FILENAME: ClassVar[str] = config.common.provider_asset_pair_filename
+    _COMMON_DATA_DIR: ClassVar[str] = config.common.data_directory
+    _COMMON_FILE_EXT: ClassVar[str] = config.common.file_extension
+    _SYMBOL_FILENAME: ClassVar[str] = config.common.asset_pair_provider_filename
     _SYMBOLS: ClassVar[pd.DataFrame] = None
 
     PROVIDER_OANDA: ClassVar[str] = "OANDA"
@@ -32,8 +30,8 @@ class EIProvider(ABC):
     def get_symbols(reload: bool=False) -> pd.DataFrame:
         """Return list of symbols by provider"""
         if EIProvider._SYMBOLS is None or reload:
-            directory = EIProvider._SYMBOLS_DATA_DIR
-            filename = EIProvider._SYMBOLS_FILENAME + EIProvider._SYMBOLS_FILE_EXT
+            directory = EIProvider._COMMON_DATA_DIR
+            filename = EIProvider._SYMBOL_FILENAME + EIProvider._COMMON_FILE_EXT
 
             if os.path.exists(directory + filename):
                 EIProvider._SYMBOLS = pd.read_csv(directory + filename)

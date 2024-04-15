@@ -1,5 +1,4 @@
 """Module of Oanda Provider Class"""
-import os.path
 import decimal
 import pandas as pd
 from v20.errors import ResponseNoField
@@ -9,6 +8,7 @@ from ...common.config import config
 from ..api import EIProvider
 from ...ticker.api import EITicker
 from ...ticker.implementation import Ticker
+from ...file.api import EIFileManager
 
 class OandaProvider(EIProvider):
     """Implementation of EIProvider"""
@@ -16,31 +16,32 @@ class OandaProvider(EIProvider):
     _PRICE_ASK = "A"
     _PRICE_BID = "B"
     _PRICE_MID = "M"
-    _API       = tpqoa.tpqoa(config.provider.config_path_oanda)
+    _API       = tpqoa.tpqoa(config.provider.oanda_config_path)
 
     @staticmethod
     def get_instruments(force_download: bool=False) -> pd.DataFrame:
         """Return available instruments"""
-        filename = EIProvider.PROVIDER_OANDA + "_INSTRUMENTS" + EIProvider._FILE_EXT
+        filename = EIProvider.PROVIDER_OANDA + "_INSTRUMENTS" + EIFileManager.FILE_EXT
 
-        if os.path.exists(EIProvider._DATA_DIR + filename) and not force_download:
-            return pd.read_csv(EIProvider._DATA_DIR + filename)
+        if not force_download:
+            df = EIFileManager.read_csv(filename)
+            if df is not None and not df.empty:
+                return df
 
-        if not os.path.exists(EIProvider._DATA_DIR):
-            os.mkdir(EIProvider._DATA_DIR)
-
-        instruments = pd.DataFrame.from_records(OandaProvider._API.get_instruments(),
+        df = pd.DataFrame.from_records(OandaProvider._API.get_instruments(),
                                                 columns=["symbol", "instrument"])
-        instruments[["symbol", "instrument"]]=instruments[["instrument", "symbol"]]
-        instruments.to_csv(EIProvider._DATA_DIR + filename, index=False)
+        df[["symbol", "instrument"]] = df[["instrument", "symbol"]]
 
-        return instruments
+        if EIFileManager.write_csv(filename, df):
+            return df
+
+        return None
 
     def get_filename(self) -> str:
         """Generate and return filename of saved response"""
         name = (f"{EIProvider.PROVIDER_OANDA}_{self.symbol.value}_"
                 f"{self.start}_{self.end}_{self.timeframe.value.description}")
-        filename = name + EIProvider._FILE_EXT
+        filename = name + EIFileManager.FILE_EXT
 
         return filename
 
@@ -51,20 +52,16 @@ class OandaProvider(EIProvider):
     def _fetch_data(self, force_download: bool=False) -> pd.DataFrame:
         filename = self.get_filename()
 
-        if os.path.exists(EIProvider._DATA_DIR + filename) and not force_download:
-            response = pd.read_csv(EIProvider._DATA_DIR + filename,
-                                         parse_dates=[OandaProvider._INDEX_COL],
-                                         index_col=OandaProvider._INDEX_COL)
+        if not force_download:
+            df = EIFileManager.read_csv(filename, OandaProvider._INDEX_COL)
+            if df is not None and not df.empty:
+                return df
 
-        else:
-            if not os.path.exists(EIProvider._DATA_DIR):
-                os.mkdir(EIProvider._DATA_DIR)
+        df = self._prepare_data()
+        if EIFileManager.write_csv(filename, df):
+            return df
 
-            response = self._prepare_data()
-            if response is not None:
-                response.to_csv(EIProvider._DATA_DIR + filename)
-
-        return response
+        return None
 
     def _prepare_data(self) -> pd.DataFrame:
         print("(1/3) Fetching data...", flush=True, end="\r")
