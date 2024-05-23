@@ -6,8 +6,7 @@ import tpqoa
 
 from ...common.config import config
 from ..api import EIProvider
-from ...ticker.api import EITicker
-from ...ticker.implementation import Ticker
+from ...ticker import Ticker
 from ...file.api import EIFileManager
 
 class OandaProvider(EIProvider):
@@ -119,8 +118,8 @@ class OandaProvider(EIProvider):
 
         return response
 
-    def get_ticker(self, force_download: bool=False) -> EITicker:
-        """Return response in EITicker object"""
+    def get_ticker(self, force_download: bool=False) -> Ticker:
+        """Return response in Ticker object"""
 
         return Ticker(self.symbol, self.start, self.end,
                       self.timeframe, self._fetch_data(force_download))

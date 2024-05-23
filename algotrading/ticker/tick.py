@@ -1,13 +1,12 @@
-"""Module of Tick Entity Interface"""
+"""Module of Tick Class"""
 from dataclasses import dataclass
-from abc import ABC
 from datetime import datetime as dt
 
-from ...common.asset import AssetPairCode as Symbol
+from ..common.asset import AssetPairCode as Symbol
 
 @dataclass
-class EITick(ABC):
-    """Tick Entity Interface"""
+class Tick():
+    """Tick Class"""
     symbol: Symbol
     datetime: dt
     ask: float

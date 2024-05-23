@@ -69,12 +69,12 @@ class EIFileManager(ABC):
                            index_col=date_index_col)
 
     @staticmethod
-    def write_csv(name: str, data: pd.DataFrame) -> bool:
+    def write_csv(name: str, data: pd.DataFrame, index: bool=True) -> bool:
         "Return true if writing from DataFrame to csv file successful"
         if EIFileManager.exist(name, reload=True):
             raise FileExistsError
 
-        data.to_csv(EIFileManager.DATA_DIR + name, index=False)
+        data.to_csv(EIFileManager.DATA_DIR + name, index=index)
         if EIFileManager.exist(name, reload=True):
             return True
 

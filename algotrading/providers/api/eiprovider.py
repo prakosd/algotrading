@@ -9,7 +9,7 @@ import pandas as pd
 from ...common.config import config
 from ...common.trade import Timeframe
 from ...common.asset import AssetPairCode as Symbol
-from ...ticker.api import EITicker
+from ...ticker import Ticker
 
 @dataclass
 class EIProvider(ABC):
@@ -61,5 +61,5 @@ class EIProvider(ABC):
         """Generate and return filename of saved response"""
 
     @abstractmethod
-    def get_ticker(self, force_download: bool=False) -> EITicker:
-        """Return response in EITicker object"""
+    def get_ticker(self, force_download: bool=False) -> Ticker:
+        """Return response in Ticker object"""

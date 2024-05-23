@@ -1,18 +1,27 @@
 """Module of Ticker Class"""
+from dataclasses import dataclass
+from datetime import datetime as dt
+from typing import Self
 import matplotlib.pyplot as plt
 import pandas as pd
 
-from ...common.trade import Timeframe
-from ..api import EITicker, EITick
+from ..common.asset import AssetPairCode as Symbol
+from ..common.trade import Timeframe
 from .tick import Tick
 
 plt.style.use("seaborn")
 
-class Ticker(EITicker):
-    """Implementation of EITicker"""
+@dataclass
+class Ticker():
+    """Ticker Class"""
+    symbol: Symbol
+    start: dt
+    end: dt
+    timeframe: Timeframe
+    data: pd.DataFrame
 
     def get_data(self, index: int = None,
-                 datetime: str = None) -> pd.DataFrame | EITick | None:
+                 datetime: str = None) -> pd.DataFrame | Tick | None:
         """Return ticker data"""
         if self.data is None:
             return None
@@ -87,7 +96,7 @@ class Ticker(EITicker):
               f"{self.timeframe.value.description} -> {to_timeframe.value.description}")
         return None
 
-    def append(self, ticker: EITicker) -> pd.DataFrame | None:
+    def append(self, ticker: Self) -> pd.DataFrame | None:
         """Append ticker data with ticker of the same symbol and timeframe"""
         if self.data is None and ticker.data is None:
             return None
