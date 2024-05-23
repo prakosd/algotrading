@@ -8,7 +8,7 @@ from .....common.config import config
 from .....common.trade import OrderType, OrderDirection
 from .....common.asset import AssetPairCode as Symbol
 from ...deal.api import EIDeal
-from .....ticker.api import EITick
+from .....ticker import Tick
 
 @dataclass
 class EIOrder(ABC):
@@ -64,7 +64,7 @@ class EIOrder(ABC):
         """Execute order"""
 
     @abstractmethod
-    def get_profit(self, tick: EITick) -> float:
+    def get_profit(self, tick: Tick) -> float:
         """Return profit on a given tick"""
 
     @abstractmethod

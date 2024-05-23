@@ -2,7 +2,7 @@
 from datetime import datetime as dt
 
 from ..api import EITrade
-from .....ticker.api import EITick
+from .....ticker import Tick
 from ...position.api import EIPosition
 from ...order.api import EIOrder
 from ...deal.api import EIDeal
@@ -30,7 +30,7 @@ class Trade(EITrade):
         self.positions.insert(0, pos)
         return pos
 
-    def close_position(self, position_id: int, tick: EITick) -> EIPosition:
+    def close_position(self, position_id: int, tick: Tick) -> EIPosition:
         """Close and return a position by id"""
         for pos in self.positions:
             if pos.status == PositionStatus.OPEN and pos.id == position_id:
@@ -39,7 +39,7 @@ class Trade(EITrade):
 
         return None
 
-    def close_all_position(self, tick: EITick) -> list[EIPosition]:
+    def close_all_position(self, tick: Tick) -> list[EIPosition]:
         """Close all open position and return the list of closed position"""
         result = []
         for pos in self.positions:
@@ -92,7 +92,7 @@ class Trade(EITrade):
 
         return None
 
-    def floating_profit(self, tick: EITick) -> float:
+    def floating_profit(self, tick: Tick) -> float:
         """Return unrealized profit/loss"""
         profit = 0
         for pos in self.positions:

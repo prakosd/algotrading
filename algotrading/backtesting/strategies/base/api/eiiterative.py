@@ -10,7 +10,7 @@ from ....components.trade.api import EITrade
 from ....components.position.api import EIPosition
 from ....components.order.api import EIOrder
 from ....components.deal.api import EIDeal
-from .....ticker.api import EITicker, EITick
+from .....ticker import Ticker, Tick
 from ....components.account.api import EIAccount
 from .....backtesting import BacktestingReport
 
@@ -21,7 +21,7 @@ class EIIterativeBase(ABC):
     STOP_OUT_LEVEL: ClassVar[float] = config.account.stop_out_level
 
     trade: EITrade
-    ticker: EITicker
+    ticker: Ticker
     account: EIAccount
 
     data: pd.DataFrame = field(init=False)
@@ -59,7 +59,7 @@ class EIIterativeBase(ABC):
         """Stop the iteration"""
 
     @abstractmethod
-    def margin_health(self, tick: EITick) -> MarginHealth:
+    def margin_health(self, tick: Tick) -> MarginHealth:
         """Return margin health on given tick"""
 
     @abstractmethod
@@ -67,11 +67,11 @@ class EIIterativeBase(ABC):
         """Return total margin in use"""
 
     @abstractmethod
-    def margin_level(self, tick: EITick) -> float:
+    def margin_level(self, tick: Tick) -> float:
         """Return current percentage of margin level"""
 
     @abstractmethod
-    def equity(self, tick: EITick) -> float:
+    def equity(self, tick: Tick) -> float:
         """Return current equity"""
 
     @abstractmethod
@@ -79,11 +79,11 @@ class EIIterativeBase(ABC):
         """Return current balance"""
 
     @abstractmethod
-    def record_equity(self, tick: EITick):
+    def record_equity(self, tick: Tick):
         """Record equity on a given tick"""
 
     @abstractmethod
-    def floating_profit(self, tick: EITick) -> float:
+    def floating_profit(self, tick: Tick) -> float:
         """Return current unrealized profit/loss"""
 
     @abstractmethod
@@ -91,15 +91,15 @@ class EIIterativeBase(ABC):
         """Return current realized profit/loss"""
 
     @abstractmethod
-    def free_margin(self, tick: EITick) -> float:
+    def free_margin(self, tick: Tick) -> float:
         """Return current free margin"""
 
     @abstractmethod
-    def close_all_position(self, tick: EITick) -> bool:
+    def close_all_position(self, tick: Tick) -> bool:
         """Close all open positions"""
 
     @abstractmethod
-    def open_position(self, tick: EITick, position_type: PositionType,
+    def open_position(self, tick: Tick, position_type: PositionType,
                        volume: float) -> int:
         """Open long/buy or short/sell position and returns position id"""
 
@@ -108,15 +108,15 @@ class EIIterativeBase(ABC):
         """Return the latest opened position"""
 
     @abstractmethod
-    def long_buy(self, tick: EITick, volume: float) -> int:
+    def long_buy(self, tick: Tick, volume: float) -> int:
         """Open long/buy position and returns position id"""
 
     @abstractmethod
-    def short_sell(self, tick: EITick, volume: float) -> int:
+    def short_sell(self, tick: Tick, volume: float) -> int:
         """Open short/sell position and returns position id"""
 
     @abstractmethod
-    def close_position(self, position_id: int, tick: EITick) -> bool:
+    def close_position(self, position_id: int, tick: Tick) -> bool:
         """Close a position"""
 
     @abstractmethod
@@ -148,11 +148,11 @@ class EIIterativeBase(ABC):
         """Return account's transaction history"""
 
     @abstractmethod
-    def print_account_info(self, tick: EITick):
+    def print_account_info(self, tick: Tick):
         """Print out account info on a given tick"""
 
     @abstractmethod
-    def print_open_positions(self, tick: EITick):
+    def print_open_positions(self, tick: Tick):
         """Print out current open positions"""
 
     @abstractmethod

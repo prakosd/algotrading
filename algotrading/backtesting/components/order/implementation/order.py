@@ -5,7 +5,7 @@ import random
 from ..api import EIOrder
 from ...deal.api import EIDeal
 from ...deal.implementation import Deal
-from .....ticker.api import EITick
+from .....ticker import Tick
 from .....common.trade import DealType
 
 class Order(EIOrder):
@@ -34,7 +34,7 @@ class Order(EIOrder):
             # execute again if order volume is not fulfilled
             self.execute()
 
-    def get_profit(self, tick: EITick) -> float:
+    def get_profit(self, tick: Tick) -> float:
         """Return profit on a given tick"""
         point = 0
         for deal in self.deals:

@@ -4,7 +4,7 @@ from copy import copy
 
 from ..api import EIPosition
 from ...order.api import EIOrder
-from .....ticker.api import EITick
+from .....ticker import Tick
 from ...order.implementation import Order
 from .....common.trade import OrderDirection, OrderType
 from .....common.trade import PositionType, PositionStatus
@@ -44,7 +44,7 @@ class Position(EIPosition):
         order.execute()
         return order
 
-    def get_profit(self, tick: EITick=None) -> float:
+    def get_profit(self, tick: Tick=None) -> float:
         """Return realized/floating profit on a given tick"""
         if self.status == PositionStatus.CLOSE or tick is None:
             return self._profit
@@ -56,7 +56,7 @@ class Position(EIPosition):
 
         return profit
 
-    def close(self, tick: EITick) -> float:
+    def close(self, tick: Tick) -> float:
         """Close position and return profit"""
         if self.status == PositionStatus.CLOSE:
             return self._profit

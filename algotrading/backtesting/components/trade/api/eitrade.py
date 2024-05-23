@@ -9,7 +9,7 @@ from ...order.api import EIOrder
 from ...deal.api import EIDeal
 from .....common.trade import PositionType
 from .....common.asset import AssetPairCode as Symbol
-from .....ticker.api import EITick
+from .....ticker import Tick
 
 @dataclass
 class EITrade(ABC):
@@ -33,11 +33,11 @@ class EITrade(ABC):
         """Open and return a new position"""
 
     @abstractmethod
-    def close_position(self, position_id: int, tick: EITick) -> EIPosition:
+    def close_position(self, position_id: int, tick: Tick) -> EIPosition:
         """Close and return a position by id"""
 
     @abstractmethod
-    def close_all_position(self, tick: EITick) -> list[EIPosition]:
+    def close_all_position(self, tick: Tick) -> list[EIPosition]:
         """Close all open position and return the list of closed position"""
 
     @abstractmethod
@@ -65,7 +65,7 @@ class EITrade(ABC):
         """Return the latest open position"""
 
     @abstractmethod
-    def floating_profit(self, tick: EITick) -> float:
+    def floating_profit(self, tick: Tick) -> float:
         """Return unrealized profit/loss"""
 
     @abstractmethod

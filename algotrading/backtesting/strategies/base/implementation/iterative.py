@@ -11,7 +11,7 @@ from ....components.position.api import EIPosition
 from ....components.order.api import EIOrder
 from ....components.deal.api import EIDeal
 from .....common.trade import MarginHealth, PositionType
-from .....ticker.api import EITick
+from .....ticker import Tick
 from .....backtesting import BacktestingReport
 
 class IterativeBase(EIIterativeBase, ABC):
@@ -91,7 +91,7 @@ class IterativeBase(EIIterativeBase, ABC):
         if self.is_running:
             self.is_interrupted = True
 
-    def margin_health(self, tick: EITick) -> MarginHealth:
+    def margin_health(self, tick: Tick) -> MarginHealth:
         """Return margin health on given tick"""
         if self.margin_used() > 0:
             margin_level = self.margin_level(tick)
@@ -112,7 +112,7 @@ class IterativeBase(EIIterativeBase, ABC):
         """Return total margin in use"""
         return self.trade.margin_used()
 
-    def margin_level(self, tick: EITick) -> float:
+    def margin_level(self, tick: Tick) -> float:
         """Return current percentage of margin level"""
         margin_used = self.margin_used()
         if margin_used <= 0:
@@ -120,7 +120,7 @@ class IterativeBase(EIIterativeBase, ABC):
         else:
             return (self.equity(tick) / margin_used) * 100
 
-    def equity(self, tick: EITick) -> float:
+    def equity(self, tick: Tick) -> float:
         """Return current equity"""
         return self.balance() + self.trade.floating_profit(tick)
 
@@ -128,7 +128,7 @@ class IterativeBase(EIIterativeBase, ABC):
         """Return current balance"""
         return self.account.actual_balance + self.margin_used()
 
-    def record_equity(self, tick: EITick):
+    def record_equity(self, tick: Tick):
         """Record equity on a given tick"""
         record = {'datetime': tick.datetime,
                   'balance': self.balance(),
@@ -141,7 +141,7 @@ class IterativeBase(EIIterativeBase, ABC):
                   'marginHealth': self.margin_health(tick).name}
         self.equity_records.append(record)
 
-    def floating_profit(self, tick: EITick) -> float:
+    def floating_profit(self, tick: Tick) -> float:
         """Return current unrealized profit/loss"""
         return self.trade.floating_profit(tick)
 
@@ -149,11 +149,11 @@ class IterativeBase(EIIterativeBase, ABC):
         """Return current realized profit/loss"""
         return self.trade.realized_net_profit()
 
-    def free_margin(self, tick: EITick) -> float:
+    def free_margin(self, tick: Tick) -> float:
         """Return current free margin"""
         return self.equity(tick) - self.margin_used()
 
-    def close_all_position(self, tick: EITick) -> bool:
+    def close_all_position(self, tick: Tick) -> bool:
         """Close all open positions"""
         open_pos_before = len(self.trade.get_all_open_position())
         positions = self.trade.close_all_position(tick)
@@ -165,7 +165,7 @@ class IterativeBase(EIIterativeBase, ABC):
 
         return open_pos_before == open_pos_after
 
-    def open_position(self, tick: EITick, position_type: PositionType,
+    def open_position(self, tick: Tick, position_type: PositionType,
                        volume: float) -> int:
         """Open long/buy or short/sell position and returns position id"""
         if self.margin_health(tick) == MarginHealth.MARGIN_CALL:
@@ -196,15 +196,15 @@ class IterativeBase(EIIterativeBase, ABC):
         """Return the latest opened position"""
         return self.trade.get_last_open_position()
 
-    def long_buy(self, tick: EITick, volume: float) -> int:
+    def long_buy(self, tick: Tick, volume: float) -> int:
         """Open long/buy position and returns position id"""
         return self.open_position(tick, PositionType.LONG_BUY, volume)
 
-    def short_sell(self, tick: EITick, volume: float) -> int:
+    def short_sell(self, tick: Tick, volume: float) -> int:
         """Open short/sell position and returns position id"""
         return self.open_position(tick, PositionType.SHORT_SELL, volume)
 
-    def close_position(self, position_id: int, tick: EITick) -> bool:
+    def close_position(self, position_id: int, tick: Tick) -> bool:
         """Close a position"""
         pos = self.trade.close_position(position_id, tick)
 
@@ -276,7 +276,7 @@ class IterativeBase(EIIterativeBase, ABC):
         """Return account's transaction history"""
         return self.account.get_ledger()
 
-    def print_account_info(self, tick: EITick):
+    def print_account_info(self, tick: Tick):
         """Print out account info on a given tick"""
         print(f"balance: {self.balance()}, "
               f"equity: {self.equity(tick)}, "
@@ -284,7 +284,7 @@ class IterativeBase(EIIterativeBase, ABC):
               f"marginLevel: {self.margin_level(tick)}%, "
               f"gain: {self.realized_net_profit()}, fProfit: {self.floating_profit(tick)}")
 
-    def print_open_positions(self, tick: EITick):
+    def print_open_positions(self, tick: Tick):
         """Print out current open positions"""
         positions = self.trade.get_all_open_position()
         for pos in positions:

@@ -8,7 +8,7 @@ from .....common.trade import PositionType, PositionStatus
 from .....common.trade import OrderDirection
 from .....common.asset import AssetPairCode as Symbol
 from ...order.api import EIOrder
-from .....ticker.api import EITick
+from .....ticker import Tick
 
 @dataclass
 class EIPosition(ABC):
@@ -54,11 +54,11 @@ class EIPosition(ABC):
         """Execute an order"""
 
     @abstractmethod
-    def get_profit(self, tick: EITick=None) -> float:
+    def get_profit(self, tick: Tick=None) -> float:
         """Return realized/floating profit on a given tick"""
 
     @abstractmethod
-    def close(self, tick: EITick) -> float:
+    def close(self, tick: Tick) -> float:
         """Close position and return profit"""
 
     @abstractmethod
