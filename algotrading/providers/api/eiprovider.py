@@ -19,37 +19,37 @@ class EIProvider(ABC):
     _SYMBOL_FILENAME: ClassVar[str] = config.common.asset_pair_provider_filename
     _SYMBOLS: ClassVar[pd.DataFrame] = None
 
-    PROVIDER_OANDA: ClassVar[str] = "OANDA"
+    OANDA: ClassVar[str] = "OANDA"
 
     symbol: Symbol
     start: dt
     end: dt
     timeframe: Timeframe
 
-    @staticmethod
-    def get_symbols(reload: bool=False) -> pd.DataFrame:
+    @classmethod
+    def get_symbols(cls, reload: bool=False) -> pd.DataFrame:
         """Return list of symbols by provider"""
-        if EIProvider._SYMBOLS is None or reload:
-            directory = EIProvider._COMMON_DATA_DIR
-            filename = EIProvider._SYMBOL_FILENAME + EIProvider._COMMON_FILE_EXT
+        if cls._SYMBOLS is None or reload:
+            directory = cls._COMMON_DATA_DIR
+            filename = cls._SYMBOL_FILENAME + cls._COMMON_FILE_EXT
 
             if os.path.exists(directory + filename):
-                EIProvider._SYMBOLS = pd.read_csv(directory + filename)
+                cls._SYMBOLS = pd.read_csv(directory + filename)
             else:
                 raise FileNotFoundError(f"{directory + filename}")
 
-        return EIProvider._SYMBOLS
+        return cls._SYMBOLS
 
-    @staticmethod
-    def translate_symbol(provider: str, symbol: Symbol, reload: bool=False) -> str:
+    @classmethod
+    def translate_symbol(cls, provider: str, symbol: Symbol, reload: bool=False) -> str:
         """Translate system symbol code to provider's symbol code"""
-        df = EIProvider.get_symbols(reload)
+        df = cls.get_symbols(reload)
         return df.loc[(df['PROVIDER'] == provider)
                       & (df['SYSTEM_CODE'] == symbol.value), 'PROVIDER_CODE'].iloc[0]
 
-    @staticmethod
+    @classmethod
     @abstractmethod
-    def get_instruments(force_download: bool=False) -> pd.DataFrame:
+    def get_instruments(cls, force_download: bool=False) -> pd.DataFrame:
         """Return available instruments"""
 
     @abstractmethod

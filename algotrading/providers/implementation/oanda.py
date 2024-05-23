@@ -17,17 +17,17 @@ class OandaProvider(EIProvider):
     _PRICE_MID = "M"
     _API       = tpqoa.tpqoa(config.provider.oanda_config_path)
 
-    @staticmethod
-    def get_instruments(force_download: bool=False) -> pd.DataFrame:
+    @classmethod
+    def get_instruments(cls, force_download: bool=False) -> pd.DataFrame:
         """Return available instruments"""
-        filename = EIProvider.PROVIDER_OANDA + "_INSTRUMENTS" + FileManager.FILE_EXT
+        filename = cls.OANDA + "_INSTRUMENTS" + FileManager.FILE_EXT
 
         if not force_download:
             df = FileManager.read_csv(filename)
             if df is not None and not df.empty:
                 return df
 
-        df = pd.DataFrame.from_records(OandaProvider._API.get_instruments(),
+        df = pd.DataFrame.from_records(cls._API.get_instruments(),
                                                 columns=["symbol", "instrument"])
         df[["symbol", "instrument"]] = df[["instrument", "symbol"]]
 
@@ -38,7 +38,7 @@ class OandaProvider(EIProvider):
 
     def get_filename(self) -> str:
         """Generate and return filename of saved response"""
-        name = (f"{EIProvider.PROVIDER_OANDA}_{self.symbol.value}_"
+        name = (f"{self.OANDA}_{self.symbol.value}_"
                 f"{self.start}_{self.end}_{self.timeframe.value.granularity}")
         filename = name + FileManager.FILE_EXT
 
@@ -52,7 +52,7 @@ class OandaProvider(EIProvider):
         filename = self.get_filename()
 
         if not force_download:
-            df = FileManager.read_csv(filename, OandaProvider._INDEX_COL)
+            df = FileManager.read_csv(filename, self._INDEX_COL)
             if df is not None and not df.empty:
                 return df
 
@@ -64,12 +64,12 @@ class OandaProvider(EIProvider):
 
     def _prepare_data(self) -> pd.DataFrame:
         print("(1/3) Fetching data...", flush=True, end="\r")
-        symbol_oanda = EIProvider.translate_symbol(EIProvider.PROVIDER_OANDA, self.symbol)
+        symbol_oanda = self.translate_symbol(self.OANDA, self.symbol)
         try:
-            ask = OandaProvider._API.get_history(instrument=symbol_oanda,
+            ask = self._API.get_history(instrument=symbol_oanda,
                                             start=self.start, end=self.end,
                                             granularity=self.timeframe.value.granularity,
-                                            price=OandaProvider._PRICE_ASK, localize=False)
+                                            price=self._PRICE_ASK, localize=False)
         except ResponseNoField as exp:
             print(f"ERROR ResponseNoField: {exp}")
             return
@@ -83,10 +83,10 @@ class OandaProvider(EIProvider):
         ask = ask.rename(columns={"c": "ask"})
 
         print("(2/3) Fetching data....", flush=True, end="\r")
-        bid = OandaProvider._API.get_history(instrument=symbol_oanda,
+        bid = self._API.get_history(instrument=symbol_oanda,
                                         start=self.start, end=self.end,
                                         granularity=self.timeframe.value.granularity,
-                                        price=OandaProvider._PRICE_BID, localize=False)
+                                        price=self._PRICE_BID, localize=False)
 
         bid = bid.dropna()
         bid = bid.loc[bid.complete]
@@ -94,10 +94,10 @@ class OandaProvider(EIProvider):
         bid = bid.rename(columns={"c": "bid"})
 
         print("(3/3) Fetching data.....", flush=True, end="\r")
-        mid = OandaProvider._API.get_history(instrument=symbol_oanda,
+        mid = self._API.get_history(instrument=symbol_oanda,
                                         start=self.start, end=self.end,
                                         granularity=self.timeframe.value.granularity,
-                                        price=OandaProvider._PRICE_MID, localize=False)
+                                        price=self._PRICE_MID, localize=False)
 
         mid = mid.dropna()
         mid = mid.loc[mid.complete]
