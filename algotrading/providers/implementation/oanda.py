@@ -7,7 +7,7 @@ import tpqoa
 from ...common.config import config
 from ..api import EIProvider
 from ...ticker import Ticker
-from ...file.api import EIFileManager
+from ...file import FileManager
 
 class OandaProvider(EIProvider):
     """Implementation of EIProvider"""
@@ -20,10 +20,10 @@ class OandaProvider(EIProvider):
     @staticmethod
     def get_instruments(force_download: bool=False) -> pd.DataFrame:
         """Return available instruments"""
-        filename = EIProvider.PROVIDER_OANDA + "_INSTRUMENTS" + EIFileManager.FILE_EXT
+        filename = EIProvider.PROVIDER_OANDA + "_INSTRUMENTS" + FileManager.FILE_EXT
 
         if not force_download:
-            df = EIFileManager.read_csv(filename)
+            df = FileManager.read_csv(filename)
             if df is not None and not df.empty:
                 return df
 
@@ -31,7 +31,7 @@ class OandaProvider(EIProvider):
                                                 columns=["symbol", "instrument"])
         df[["symbol", "instrument"]] = df[["instrument", "symbol"]]
 
-        if EIFileManager.write_csv(filename, df):
+        if FileManager.write_csv(filename, df):
             return df
 
         return None
@@ -39,8 +39,8 @@ class OandaProvider(EIProvider):
     def get_filename(self) -> str:
         """Generate and return filename of saved response"""
         name = (f"{EIProvider.PROVIDER_OANDA}_{self.symbol.value}_"
-                f"{self.start}_{self.end}_{self.timeframe.value.description}")
-        filename = name + EIFileManager.FILE_EXT
+                f"{self.start}_{self.end}_{self.timeframe.value.granularity}")
+        filename = name + FileManager.FILE_EXT
 
         return filename
 
@@ -52,12 +52,12 @@ class OandaProvider(EIProvider):
         filename = self.get_filename()
 
         if not force_download:
-            df = EIFileManager.read_csv(filename, OandaProvider._INDEX_COL)
+            df = FileManager.read_csv(filename, OandaProvider._INDEX_COL)
             if df is not None and not df.empty:
                 return df
 
         df = self._prepare_data()
-        if EIFileManager.write_csv(filename, df):
+        if FileManager.write_csv(filename, df):
             return df
 
         return None
