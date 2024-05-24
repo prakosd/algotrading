@@ -6,7 +6,7 @@ import pandas as pd
 
 from .....common.config import config
 from .....common.trade import MarginHealth, PositionType
-from ....components.trade.api import EITrade
+from ....components.trade import Trade
 from ....components.position import Position
 from ....components.order import Order
 from ....components.deal import Deal
@@ -20,7 +20,7 @@ class EIIterativeBase(ABC):
     MARGIN_CALL_LEVEL: ClassVar[float] = config.account.margin_call_level
     STOP_OUT_LEVEL: ClassVar[float] = config.account.stop_out_level
 
-    trade: EITrade
+    trade: Trade
     ticker: Ticker
     account: Account
 

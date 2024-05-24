@@ -1,17 +1,25 @@
 """Module of Trade Class"""
+from dataclasses import dataclass, field
 from datetime import datetime as dt
 
-from ..api import EITrade
-from .....ticker import Tick
-from ...order import Order
-from ...deal import Deal
-from ...position import Position
-from .....common.trade import PositionType, PositionStatus
-from .....common.asset import AssetPairCode as Symbol
-from ...trade import TradeReport
+from ..trade import TradeReport
+from ..position import Position
+from ..order import Order
+from ..deal import Deal
+from ....common.trade import PositionType, PositionStatus
+from ....common.asset import AssetPairCode as Symbol
+from ....ticker import Tick
 
-class Trade(EITrade):
-    """Implementation of EITrade"""
+@dataclass
+class Trade():
+    """Trade Class"""
+    report: TradeReport = field(init=False)
+    positions: list[Position] = field(init=False)
+
+    def __post_init__(self):
+        """Post initialization"""
+        self.report = None
+        self.positions = []
 
     def clear_positions(self):
         """Remove all positions"""

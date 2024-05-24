@@ -8,8 +8,7 @@ from .account import Account
 from .deal import Deal
 from .order import Order
 from .position import Position
-from .trade.api import EITrade
-from .trade.implementation import Trade
+from .trade import Trade
 
 class ComponentFactory():
     """Static class to create component object"""
@@ -38,6 +37,6 @@ class ComponentFactory():
         return Position(symbol, open_datetime, pos_type, volume, price, margin, comment)
 
     @staticmethod
-    def create_trade() -> EITrade:
+    def create_trade() -> Trade:
         """Return new trade object"""
         return Trade()
