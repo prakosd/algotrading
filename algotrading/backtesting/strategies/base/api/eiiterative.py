@@ -11,7 +11,7 @@ from ....components.position.api import EIPosition
 from ....components.order.api import EIOrder
 from ....components.deal import Deal
 from .....ticker import Ticker, Tick
-from ....components.account.api import EIAccount
+from ....components.account import Account
 from .....backtesting import BacktestingReport
 
 @dataclass
@@ -22,7 +22,7 @@ class EIIterativeBase(ABC):
 
     trade: EITrade
     ticker: Ticker
-    account: EIAccount
+    account: Account
 
     data: pd.DataFrame = field(init=False)
     is_interrupted: bool = field(init=False)

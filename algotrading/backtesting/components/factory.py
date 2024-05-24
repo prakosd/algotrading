@@ -4,8 +4,7 @@ from datetime import datetime as dt
 from ...common.trade import DealType, OrderType
 from ...common.trade import OrderDirection, PositionType
 from ...common.asset import AssetPairCode as Symbol
-from .account.api import EIAccount
-from .account.implementation import Account
+from .account import Account
 from .deal import Deal
 from .order.api import EIOrder
 from .order.implementation import Order
@@ -18,7 +17,7 @@ class ComponentFactory():
     """Static class to create component object"""
 
     @staticmethod
-    def create_account(initial_datetime: dt, initial_balance: float) -> EIAccount:
+    def create_account(initial_datetime: dt, initial_balance: float) -> Account:
         """Return new account object"""
         return Account(initial_datetime, initial_balance)
 

@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 
 from ..api import EIIterativeBase
-from ....components.account.api import EIAccount
+from ....components.account import Account
 from ....components.position.api import EIPosition
 from ....components.order.api import EIOrder
 from ....components.deal import Deal
@@ -178,7 +178,7 @@ class IterativeBase(EIIterativeBase, ABC):
         else:
             return 0
 
-        margin_req = price * volume * EIAccount.UNIT_SIZE / EIAccount.LEVERAGE
+        margin_req = price * volume * Account.UNIT_SIZE / Account.LEVERAGE
         free_margin = self.free_margin(tick)
 
         if margin_req > free_margin:

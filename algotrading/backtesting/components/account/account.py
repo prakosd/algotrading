@@ -1,12 +1,25 @@
 """Module of Account Class"""
 from datetime import datetime as dt
+from dataclasses import dataclass, field
+from typing import ClassVar
 import pandas as pd
 
-from ..api import EIAccount
-from .....common.trade import TransactionType
+from ....common.config import config
+from ....common.trade import TransactionType
 
-class Account(EIAccount):
-    """Implementation of EIAccount"""
+@dataclass
+class Account():
+    """Account Class"""
+    DEPOSIT_CURRENCY: ClassVar[str] = config.account.deposit_currency
+    LEVERAGE: ClassVar[int]         = config.account.leverage
+    UNIT_SIZE: ClassVar[int]        = config.account.unit_size
+
+    initial_datetime: dt
+    initial_balance: float
+
+    actual_balance: float = field(init=False)
+    margin: float = field(init=False)
+    ledger: list = field(init=False)
 
     def __post_init__(self):
         """Post initialization"""
@@ -20,7 +33,7 @@ class Account(EIAccount):
                             amount: float, message: str):
         """Commit transaction to the ledger"""
         record = {'datetime': date_time, 'transaction': transaction.name,
-                  'currency': EIAccount.DEPOSIT_CURRENCY, 'amount': amount,
+                  'currency': self.DEPOSIT_CURRENCY, 'amount': amount,
                   'balance': self.actual_balance, 'message': message}
         self.ledger.append(record)
 
