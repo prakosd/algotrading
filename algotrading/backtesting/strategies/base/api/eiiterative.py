@@ -7,7 +7,7 @@ import pandas as pd
 from .....common.config import config
 from .....common.trade import MarginHealth, PositionType
 from ....components.trade.api import EITrade
-from ....components.position.api import EIPosition
+from ....components.position import Position
 from ....components.order import Order
 from ....components.deal import Deal
 from .....ticker import Ticker, Tick
@@ -104,7 +104,7 @@ class EIIterativeBase(ABC):
         """Open long/buy or short/sell position and returns position id"""
 
     @abstractmethod
-    def get_last_open_position(self) -> EIPosition:
+    def get_last_open_position(self) -> Position:
         """Return the latest opened position"""
 
     @abstractmethod
@@ -124,7 +124,7 @@ class EIIterativeBase(ABC):
         """Return data"""
 
     @abstractmethod
-    def get_positions(self, as_data_frame: bool=True) -> list[EIPosition] | pd.DataFrame:
+    def get_positions(self, as_data_frame: bool=True) -> list[Position] | pd.DataFrame:
         """Return list of position"""
 
     @abstractmethod

@@ -3,10 +3,9 @@ from datetime import datetime as dt
 
 from ..api import EITrade
 from .....ticker import Tick
-from ...position.api import EIPosition
 from ...order import Order
 from ...deal import Deal
-from ...position.implementation import Position
+from ...position import Position
 from .....common.trade import PositionType, PositionStatus
 from .....common.asset import AssetPairCode as Symbol
 from ...trade import TradeReport
@@ -23,14 +22,14 @@ class Trade(EITrade):
 
     def open_position(self, symbol: Symbol, open_datetime: dt, pos_type: PositionType,
                       volume: float, open_price: float,
-                      margin: float, comment: str = None) -> EIPosition:
+                      margin: float, comment: str = None) -> Position:
         """Open and return a new position"""
         pos = Position(symbol, open_datetime, pos_type,
                        volume, open_price, margin, comment)
         self.positions.insert(0, pos)
         return pos
 
-    def close_position(self, position_id: int, tick: Tick) -> EIPosition:
+    def close_position(self, position_id: int, tick: Tick) -> Position:
         """Close and return a position by id"""
         for pos in self.positions:
             if pos.status == PositionStatus.OPEN and pos.id == position_id:
@@ -39,7 +38,7 @@ class Trade(EITrade):
 
         return None
 
-    def close_all_position(self, tick: Tick) -> list[EIPosition]:
+    def close_all_position(self, tick: Tick) -> list[Position]:
         """Close all open position and return the list of closed position"""
         result = []
         for pos in self.positions:
@@ -49,7 +48,7 @@ class Trade(EITrade):
 
         return result
 
-    def get_position(self, position_id: int) -> EIPosition:
+    def get_position(self, position_id: int) -> Position:
         """Return position by id"""
         for pos in self.positions:
             if pos.id == position_id:
@@ -57,7 +56,7 @@ class Trade(EITrade):
 
         return None
 
-    def get_positions(self) -> list[EIPosition]:
+    def get_positions(self) -> list[Position]:
         """Return a list of all position"""
         return self.positions
 
@@ -78,12 +77,12 @@ class Trade(EITrade):
 
         return deals
 
-    def get_all_open_position(self) -> list[EIPosition]:
+    def get_all_open_position(self) -> list[Position]:
         """Return a list of all open position"""
         return list(filter(lambda pos: pos.status ==
                            PositionStatus.OPEN, self.positions))
 
-    def get_last_open_position(self) -> EIPosition:
+    def get_last_open_position(self) -> Position:
         """Return the latest open position"""
         self.positions.sort(key=lambda pos: pos.open_datetime, reverse=True)
         for pos in self.positions:

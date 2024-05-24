@@ -1,19 +1,53 @@
 """Module of Position Class"""
+from dataclasses import dataclass, field
+from typing import ClassVar
 from datetime import datetime as dt
 from copy import copy
 
-from ..api import EIPosition
-from .....ticker import Tick
-from ...order import Order
-from .....common.trade import OrderDirection, OrderType
-from .....common.trade import PositionType, PositionStatus
+from ....common.trade import PositionType, PositionStatus
+from ....common.trade import OrderDirection, OrderType
+from ....common.asset import AssetPairCode as Symbol
+from ..order import Order
+from ....ticker import Tick
 
-class Position(EIPosition):
-    """Implementation of EIPosition"""
+@dataclass
+class Position():
+    """Position Class"""
+    _next_id: ClassVar[int] = 0
+
+    id: int = field(init=False)
+    symbol: Symbol
+    open_datetime: dt
+    close_datetime: dt = field(init=False)
+    type: PositionType
+    volume: float
+    price: float
+    margin: float
+    comment: str
+    status: PositionStatus = field(init=False)
+    orders: list[Order] = field(init=False)
+    _profit: float = field(init=False)
+
+    @classmethod
+    def reset_id(cls):
+        """Reset next id"""
+        cls._next_id = 0
+
+    @classmethod
+    def generate_id(cls) -> int:
+        """generate next id"""
+        new_id = cls._next_id
+        cls._next_id += 1
+        return new_id
 
     def __post_init__(self):
         """Post initialization"""
-        super().__post_init__()
+        self.id = self.generate_id()
+        self.close_datetime = None
+        self.status = PositionStatus.OPEN
+        self.orders = []
+        self._profit = 0
+
         self.orders.append(
             self.execute_order(self.open_datetime,
                                OrderDirection.MARKET_IN, self.price)
@@ -82,6 +116,7 @@ class Position(EIPosition):
             return self.orders.copy()
 
         return copy(self.orders[index])
+
 
     def orders_length(self) -> int:
         """Return number of executed orders"""

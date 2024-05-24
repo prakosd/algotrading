@@ -7,7 +7,7 @@ import pandas as pd
 
 from ..api import EIIterativeBase
 from ....components.account import Account
-from ....components.position.api import EIPosition
+from ....components.position import Position
 from ....components.order import Order
 from ....components.deal import Deal
 from .....common.trade import MarginHealth, PositionType
@@ -192,7 +192,7 @@ class IterativeBase(EIIterativeBase, ABC):
 
         return pos.id
 
-    def get_last_open_position(self) -> EIPosition:
+    def get_last_open_position(self) -> Position:
         """Return the latest opened position"""
         return self.trade.get_last_open_position()
 
@@ -221,7 +221,7 @@ class IterativeBase(EIIterativeBase, ABC):
 
         return self.data.copy()
 
-    def get_positions(self, as_data_frame: bool=True) -> list[EIPosition] | pd.DataFrame:
+    def get_positions(self, as_data_frame: bool=True) -> list[Position] | pd.DataFrame:
         """Return list of position"""
         if len(self.trade.get_positions()) <= 0:
             return None

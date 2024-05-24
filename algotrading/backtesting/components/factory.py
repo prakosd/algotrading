@@ -7,8 +7,7 @@ from ...common.asset import AssetPairCode as Symbol
 from .account import Account
 from .deal import Deal
 from .order import Order
-from .position.api import EIPosition
-from .position.implementation import Position
+from .position import Position
 from .trade.api import EITrade
 from .trade.implementation import Trade
 
@@ -34,7 +33,7 @@ class ComponentFactory():
 
     @staticmethod
     def create_position(symbol: Symbol, open_datetime: dt, pos_type: PositionType,
-                        volume: float, price: float, margin: float, comment: str) -> EIPosition:
+                        volume: float, price: float, margin: float, comment: str) -> Position:
         """Return new position object"""
         return Position(symbol, open_datetime, pos_type, volume, price, margin, comment)
 
