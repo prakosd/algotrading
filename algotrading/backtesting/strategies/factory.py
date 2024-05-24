@@ -1,6 +1,7 @@
 """Module of Strategy Factory"""
 import copy
 from datetime import datetime as dt
+from typing import ClassVar
 
 from ...common.trade import Timeframe
 from ...common.asset import AssetPairCode as Symbol
@@ -9,10 +10,11 @@ from .contrarian.implementation import ContrarianStrategy
 from ...providers import ProviderFactory
 from ..components.account import Account
 from . import BuyAndHoldParams, ContrarianParams
-from ..components.trade.implementation import Trade
+from ..components.trade import Trade
 
 class StrategyFactory():
     """Static class to create strategy object"""
+    PROVIDER_OANDA: ClassVar[str] = ProviderFactory.OANDA
 
     @staticmethod
     def create_buyandhold(provider_name: str, symbol: Symbol, start_date: dt,
