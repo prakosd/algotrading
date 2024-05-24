@@ -5,7 +5,7 @@ from datetime import datetime as dt
 
 from ...trade import TradeReport
 from ...position.api import EIPosition
-from ...order.api import EIOrder
+from ...order import Order
 from ...deal import Deal
 from .....common.trade import PositionType
 from .....common.asset import AssetPairCode as Symbol
@@ -49,7 +49,7 @@ class EITrade(ABC):
         """Return a list of all position"""
 
     @abstractmethod
-    def get_orders(self) -> list[EIOrder]:
+    def get_orders(self) -> list[Order]:
         """Return a list of all order"""
 
     @abstractmethod

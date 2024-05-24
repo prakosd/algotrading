@@ -8,7 +8,7 @@ import pandas as pd
 from ..api import EIIterativeBase
 from ....components.account import Account
 from ....components.position.api import EIPosition
-from ....components.order.api import EIOrder
+from ....components.order import Order
 from ....components.deal import Deal
 from .....common.trade import MarginHealth, PositionType
 from .....ticker import Tick
@@ -232,7 +232,7 @@ class IterativeBase(EIIterativeBase, ABC):
         else:
             return self.trade.get_positions().copy()
 
-    def get_orders(self, as_data_frame: bool=True) -> list[EIOrder] | pd.DataFrame:
+    def get_orders(self, as_data_frame: bool=True) -> list[Order] | pd.DataFrame:
         """Return list of order"""
         if len(self.trade.get_orders()) <= 0:
             return None

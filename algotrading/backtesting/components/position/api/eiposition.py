@@ -7,7 +7,7 @@ from datetime import datetime as dt
 from .....common.trade import PositionType, PositionStatus
 from .....common.trade import OrderDirection
 from .....common.asset import AssetPairCode as Symbol
-from ...order.api import EIOrder
+from ...order import Order
 from .....ticker import Tick
 
 @dataclass
@@ -25,7 +25,7 @@ class EIPosition(ABC):
     margin: float
     comment: str
     status: PositionStatus = field(init=False)
-    orders: list[EIOrder] = field(init=False)
+    orders: list[Order] = field(init=False)
     _profit: float = field(init=False)
 
     @staticmethod
@@ -50,7 +50,7 @@ class EIPosition(ABC):
         self._profit = 0
 
     @abstractmethod
-    def execute_order(self, datetime: dt, direction: OrderDirection, price: float) -> EIOrder:
+    def execute_order(self, datetime: dt, direction: OrderDirection, price: float) -> Order:
         """Execute an order"""
 
     @abstractmethod
@@ -62,7 +62,7 @@ class EIPosition(ABC):
         """Close position and return profit"""
 
     @abstractmethod
-    def get_orders(self, index: int=None) -> list[EIOrder] | EIOrder:
+    def get_orders(self, index: int=None) -> list[Order] | Order:
         """Return list of orders or an order by index"""
 
     @abstractmethod

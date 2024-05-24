@@ -7,7 +7,7 @@ from ...common.asset import AssetPairCode as Symbol
 from .buyandhold.implementation import BuyAndHoldStrategy
 from .contrarian.implementation import ContrarianStrategy
 from ...providers import ProviderFactory
-from ..components.account.implementation import Account
+from ..components.account import Account
 from . import BuyAndHoldParams, ContrarianParams
 from ..components.trade.implementation import Trade
 

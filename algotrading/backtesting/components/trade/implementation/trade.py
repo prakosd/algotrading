@@ -4,7 +4,7 @@ from datetime import datetime as dt
 from ..api import EITrade
 from .....ticker import Tick
 from ...position.api import EIPosition
-from ...order.api import EIOrder
+from ...order import Order
 from ...deal import Deal
 from ...position.implementation import Position
 from .....common.trade import PositionType, PositionStatus
@@ -61,7 +61,7 @@ class Trade(EITrade):
         """Return a list of all position"""
         return self.positions
 
-    def get_orders(self) -> list[EIOrder]:
+    def get_orders(self) -> list[Order]:
         """Return a list of all order"""
         orders = []
         for pos in self.positions:

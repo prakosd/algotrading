@@ -3,9 +3,8 @@ from datetime import datetime as dt
 from copy import copy
 
 from ..api import EIPosition
-from ...order.api import EIOrder
 from .....ticker import Tick
-from ...order.implementation import Order
+from ...order import Order
 from .....common.trade import OrderDirection, OrderType
 from .....common.trade import PositionType, PositionStatus
 
@@ -20,7 +19,7 @@ class Position(EIPosition):
                                OrderDirection.MARKET_IN, self.price)
         )
 
-    def execute_order(self, datetime: dt, direction: OrderDirection, price: float) -> EIOrder:
+    def execute_order(self, datetime: dt, direction: OrderDirection, price: float) -> Order:
         """Execute an order"""
         if direction == OrderDirection.MARKET_IN:
             if self.type == PositionType.LONG_BUY:
@@ -77,7 +76,7 @@ class Position(EIPosition):
 
         return self._profit
 
-    def get_orders(self, index: int=None) -> list[EIOrder] | EIOrder:
+    def get_orders(self, index: int=None) -> list[Order] | Order:
         """Return list of orders or an order by index"""
         if index is None:
             return self.orders.copy()

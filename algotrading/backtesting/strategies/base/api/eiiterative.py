@@ -8,7 +8,7 @@ from .....common.config import config
 from .....common.trade import MarginHealth, PositionType
 from ....components.trade.api import EITrade
 from ....components.position.api import EIPosition
-from ....components.order.api import EIOrder
+from ....components.order import Order
 from ....components.deal import Deal
 from .....ticker import Ticker, Tick
 from ....components.account import Account
@@ -128,7 +128,7 @@ class EIIterativeBase(ABC):
         """Return list of position"""
 
     @abstractmethod
-    def get_orders(self, as_data_frame: bool=True) -> list[EIOrder] | pd.DataFrame:
+    def get_orders(self, as_data_frame: bool=True) -> list[Order] | pd.DataFrame:
         """Return list of order"""
 
     @abstractmethod

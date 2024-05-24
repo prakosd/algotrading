@@ -6,8 +6,7 @@ from ...common.trade import OrderDirection, PositionType
 from ...common.asset import AssetPairCode as Symbol
 from .account import Account
 from .deal import Deal
-from .order.api import EIOrder
-from .order.implementation import Order
+from .order import Order
 from .position.api import EIPosition
 from .position.implementation import Position
 from .trade.api import EITrade
@@ -29,7 +28,7 @@ class ComponentFactory():
 
     @staticmethod
     def create_order(symbol: Symbol, datetime: dt, order_type: OrderType,
-                     direction: OrderDirection, volume: float, price: float) -> EIOrder:
+                     direction: OrderDirection, volume: float, price: float) -> Order:
         """Return new order object"""
         return Order(symbol, datetime, order_type, direction, volume, price)
 
