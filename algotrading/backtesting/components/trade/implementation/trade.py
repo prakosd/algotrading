@@ -5,7 +5,7 @@ from ..api import EITrade
 from .....ticker import Tick
 from ...position.api import EIPosition
 from ...order.api import EIOrder
-from ...deal.api import EIDeal
+from ...deal import Deal
 from ...position.implementation import Position
 from .....common.trade import PositionType, PositionStatus
 from .....common.asset import AssetPairCode as Symbol
@@ -69,7 +69,7 @@ class Trade(EITrade):
 
         return orders
 
-    def get_deals(self) -> list[EIDeal]:
+    def get_deals(self) -> list[Deal]:
         """Return a list of all deal"""
         deals = []
         for pos in self.positions:

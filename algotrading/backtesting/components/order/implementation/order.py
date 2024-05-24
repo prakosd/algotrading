@@ -3,15 +3,14 @@ from copy import copy
 import random
 
 from ..api import EIOrder
-from ...deal.api import EIDeal
-from ...deal.implementation import Deal
+from ...deal import Deal
 from .....ticker import Tick
 from .....common.trade import DealType
 
 class Order(EIOrder):
     """Implementation of EIOrder"""
 
-    def get_deals(self, index: int=None) -> list[EIDeal] | EIDeal:
+    def get_deals(self, index: int=None) -> list[Deal] | Deal:
         """Return list of deals or a deal by index"""
         if index is None:
             return self.deals.copy()
@@ -63,7 +62,7 @@ class Order(EIOrder):
 
         return volume_price / self.volume
 
-    def mock_deal(self, random_deal=False) -> EIDeal:
+    def mock_deal(self, random_deal=False) -> Deal:
         """Return deals with randomize value in given range"""
         deal_type = DealType.BUY if self.type.value > 0 else DealType.SELL
 

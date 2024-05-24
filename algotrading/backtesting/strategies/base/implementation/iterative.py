@@ -9,7 +9,7 @@ from ..api import EIIterativeBase
 from ....components.account.api import EIAccount
 from ....components.position.api import EIPosition
 from ....components.order.api import EIOrder
-from ....components.deal.api import EIDeal
+from ....components.deal import Deal
 from .....common.trade import MarginHealth, PositionType
 from .....ticker import Tick
 from .....backtesting import BacktestingReport
@@ -243,7 +243,7 @@ class IterativeBase(EIIterativeBase, ABC):
         else:
             return self.trade.get_orders().copy()
 
-    def get_deals(self, as_data_frame: bool=True) -> list[EIDeal] | pd.DataFrame:
+    def get_deals(self, as_data_frame: bool=True) -> list[Deal] | pd.DataFrame:
         """Return list of deal"""
         if len(self.trade.get_deals()) <= 0:
             return None

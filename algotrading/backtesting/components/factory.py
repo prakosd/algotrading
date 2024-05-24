@@ -6,8 +6,7 @@ from ...common.trade import OrderDirection, PositionType
 from ...common.asset import AssetPairCode as Symbol
 from .account.api import EIAccount
 from .account.implementation import Account
-from .deal.api import EIDeal
-from .deal.implementation import Deal
+from .deal import Deal
 from .order.api import EIOrder
 from .order.implementation import Order
 from .position.api import EIPosition
@@ -25,7 +24,7 @@ class ComponentFactory():
 
     @staticmethod
     def create_deal(symbol: Symbol, datetime: dt, deal_type: DealType,
-                    volume: float, price: float) -> EIDeal:
+                    volume: float, price: float) -> Deal:
         """Return new deal object"""
         return Deal(symbol, datetime, deal_type, volume, price)
 

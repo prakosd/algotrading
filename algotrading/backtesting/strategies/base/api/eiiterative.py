@@ -9,7 +9,7 @@ from .....common.trade import MarginHealth, PositionType
 from ....components.trade.api import EITrade
 from ....components.position.api import EIPosition
 from ....components.order.api import EIOrder
-from ....components.deal.api import EIDeal
+from ....components.deal import Deal
 from .....ticker import Ticker, Tick
 from ....components.account.api import EIAccount
 from .....backtesting import BacktestingReport
@@ -132,7 +132,7 @@ class EIIterativeBase(ABC):
         """Return list of order"""
 
     @abstractmethod
-    def get_deals(self, as_data_frame: bool=True) -> list[EIDeal] | pd.DataFrame:
+    def get_deals(self, as_data_frame: bool=True) -> list[Deal] | pd.DataFrame:
         """Return list of deal"""
 
     @abstractmethod

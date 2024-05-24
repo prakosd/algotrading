@@ -7,7 +7,7 @@ from datetime import datetime as dt
 from .....common.config import config
 from .....common.trade import OrderType, OrderDirection
 from .....common.asset import AssetPairCode as Symbol
-from ...deal.api import EIDeal
+from ...deal import Deal
 from .....ticker import Tick
 
 @dataclass
@@ -28,7 +28,7 @@ class EIOrder(ABC):
     direction: OrderDirection
     volume: float
     price: float
-    deals: list[EIDeal] = field(init=False)
+    deals: list[Deal] = field(init=False)
 
     @staticmethod
     def reset_id():
@@ -48,7 +48,7 @@ class EIOrder(ABC):
         self.deals = []
 
     @abstractmethod
-    def get_deals(self, index: int=None) -> list[EIDeal] | EIDeal:
+    def get_deals(self, index: int=None) -> list[Deal] | Deal:
         """Return list of deals or a deal by index"""
 
     @abstractmethod
@@ -76,7 +76,7 @@ class EIOrder(ABC):
         """Return average price of deals"""
 
     @abstractmethod
-    def mock_deal(self, random_deal=False) -> EIDeal:
+    def mock_deal(self, random_deal=False) -> Deal:
         """Return deals with randomize value in given range"""
 
     @abstractmethod
