@@ -10,7 +10,6 @@ from .contrarian.implementation import ContrarianStrategy
 from ...providers import ProviderFactory
 from ..components.account import Account
 from . import BuyAndHoldParams, ContrarianParams
-from ..components.trade import Trade
 
 class StrategyFactory():
     """Static class to create strategy object"""
@@ -33,7 +32,7 @@ class StrategyFactory():
 
         account = Account(ticker.get_data(0).datetime, params.balance)
 
-        return BuyAndHoldStrategy(Trade(), ticker, account, params)
+        return BuyAndHoldStrategy(ticker, account, params)
 
     @staticmethod
     def create_contrarian(provider_name: str, symbol: Symbol, start_date: dt,
@@ -54,9 +53,9 @@ class StrategyFactory():
         account = Account(ticker.get_data(0).datetime, params.balance)
 
         if include_buyandhold:
-            return ContrarianStrategy(Trade(), ticker, account, params,
+            return ContrarianStrategy(ticker, account, params,
                                       BuyAndHoldStrategy(
-                                          Trade(), copy.deepcopy(ticker),
+                                          copy.deepcopy(ticker),
                                           copy.deepcopy(account), params))
         else:
-            return ContrarianStrategy(Trade(), ticker, account, params)
+            return ContrarianStrategy(ticker, account, params)

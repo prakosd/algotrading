@@ -20,10 +20,10 @@ class EIIterativeBase(ABC):
     MARGIN_CALL_LEVEL: ClassVar[float] = config.account.margin_call_level
     STOP_OUT_LEVEL: ClassVar[float] = config.account.stop_out_level
 
-    trade: Trade
     ticker: Ticker
     account: Account
 
+    trade: Trade = field(init=False)
     data: pd.DataFrame = field(init=False)
     is_interrupted: bool = field(init=False)
     is_running: bool = field(init=False)
@@ -35,6 +35,7 @@ class EIIterativeBase(ABC):
     @abstractmethod
     def __post_init__(self):
         """Post initialization"""
+        self.trade = Trade()
         self.is_interrupted = False
         self.is_running = False
         self.equity_records = []
