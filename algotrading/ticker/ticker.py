@@ -9,7 +9,7 @@ from ..common.asset import AssetPairCode as Symbol
 from ..common.trade import Timeframe
 from .tick import Tick
 
-plt.style.use("seaborn")
+plt.style.use("seaborn-v0_8")
 
 @dataclass
 class Ticker():
