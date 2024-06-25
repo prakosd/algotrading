@@ -1,10 +1,7 @@
 """Module of Strategy Factory"""
 import copy
-from datetime import datetime as dt
 from typing import ClassVar
 
-from ...common.trade import Timeframe
-from ...common.asset import AssetPairCode as Symbol
 from ...ticker.ticker import Ticker
 from .buyandhold.implementation import BuyAndHoldStrategy
 from .contrarian.implementation import ContrarianStrategy
@@ -27,18 +24,10 @@ class StrategyFactory():
         return BuyAndHoldStrategy(ticker, account, params)
 
     @staticmethod
-    def create_contrarian(provider_name: str, symbol: Symbol, start_date: dt,
-                          end_date: dt, timeframe: Timeframe,
-                          params: ContrarianParams,
-                          include_buyandhold: bool=True,
-                          force_download_ticker: bool=False) -> ContrarianStrategy:
+    def create_contrarian(ticker: Ticker,
+                             params: ContrarianParams,
+                             include_buyandhold: bool=True) -> ContrarianStrategy:
         """Return new contrarian strategy object"""
-        provider = ProviderFactory.create_provider_by_name(
-            provider_name, symbol, start_date, end_date, timeframe)
-        if provider is None:
-            return None
-
-        ticker = provider.get_ticker(force_download_ticker)
         if ticker is None or ticker.get_length() <= 0:
             return None
 
