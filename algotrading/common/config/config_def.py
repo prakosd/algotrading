@@ -11,8 +11,8 @@ class CommonConfigData:
     asset_pair_provider_filename: str
 
 @dataclass(frozen=True)
-class FileManagerConfigData:
-    """File Manager config data definition"""
+class DataManagerConfigData:
+    """Data Manager config data definition"""
     data_directory: str
     file_extension: str
 
@@ -43,7 +43,7 @@ class DealConfigData:
 class ConfigData:
     """Provider config data definition"""
     common: CommonConfigData
-    file_manager: FileManagerConfigData
+    data_manager: DataManagerConfigData
     provider: ProviderConfigData
     account: AccountConfigData
     deal: DealConfigData
