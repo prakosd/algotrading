@@ -7,7 +7,7 @@ import tpqoa
 from ...common.config import config
 from ..api import EIProvider
 from ...ticker import Ticker
-from ...file import FileManager
+from ...data import DataManager
 
 class OandaProvider(EIProvider):
     """Implementation of EIProvider"""
@@ -20,10 +20,10 @@ class OandaProvider(EIProvider):
     @classmethod
     def get_instruments(cls, force_download: bool=False) -> pd.DataFrame:
         """Return available instruments"""
-        filename = cls.OANDA + "_INSTRUMENTS" + FileManager.FILE_EXT
+        filename = cls.OANDA + "_INSTRUMENTS" + DataManager.FILE_EXT
 
         if not force_download:
-            df = FileManager.read_csv(filename)
+            df = DataManager.read(filename)
             if df is not None and not df.empty:
                 return df
 
@@ -31,7 +31,7 @@ class OandaProvider(EIProvider):
                                                 columns=["symbol", "instrument"])
         df[["symbol", "instrument"]] = df[["instrument", "symbol"]]
 
-        if FileManager.write_csv(filename, df):
+        if DataManager.write(filename, df):
             return df
 
         return None
@@ -40,7 +40,7 @@ class OandaProvider(EIProvider):
         """Generate and return filename of saved response"""
         name = (f"{self.OANDA}_{self.symbol.value}_"
                 f"{self.start}_{self.end}_{self.timeframe.value.granularity}")
-        filename = name + FileManager.FILE_EXT
+        filename = name + DataManager.FILE_EXT
 
         return filename
 
@@ -52,12 +52,12 @@ class OandaProvider(EIProvider):
         filename = self.get_filename()
 
         if not force_download:
-            df = FileManager.read_csv(filename, self._INDEX_COL)
+            df = DataManager.read(filename, self._INDEX_COL)
             if df is not None and not df.empty:
                 return df
 
         df = self._prepare_data()
-        if FileManager.write_csv(filename, df):
+        if DataManager.write(filename, df):
             return df
 
         return None

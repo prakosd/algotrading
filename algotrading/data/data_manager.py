@@ -1,4 +1,4 @@
-"""Module of File Manager Class"""
+"""Module of Data Manager Class"""
 from dataclasses import dataclass
 from typing import ClassVar
 import os
@@ -7,17 +7,17 @@ import pandas as pd
 from ..common.config import config
 
 @dataclass
-class FileManager():
+class DataManager():
     """File Manager Class"""
     _DATA: ClassVar[pd.DataFrame] = None
     _NAME: ClassVar[str] = "NAME"
     _EXT: ClassVar[str] = "EXT"
 
-    DATA_DIR: ClassVar[str] = config.file_manager.data_directory
-    FILE_EXT: ClassVar[str] = config.file_manager.file_extension
+    DATA_DIR: ClassVar[str] = config.data_manager.data_directory
+    FILE_EXT: ClassVar[str] = config.data_manager.file_extension
 
     @classmethod
-    def find_files(cls, name: str=None,
+    def find(cls, name: str=None,
                   ext: str=None, reload: bool=False) -> pd.DataFrame:
         """Return list of file"""
         if cls._DATA is None or reload:
@@ -44,7 +44,7 @@ class FileManager():
     @classmethod
     def exist(cls, name: str, reload: bool=False) -> bool:
         """Return true if file exist"""
-        df = cls.find_files(reload=reload)
+        df = cls.find(reload=reload)
         df = df[df[cls._NAME] == name]
 
         if df is None or df.empty:
@@ -53,7 +53,7 @@ class FileManager():
         return True
 
     @classmethod
-    def read_csv(cls, name: str, date_index_col: str=None) -> pd.DataFrame:
+    def read(cls, name: str, date_index_col: str=None) -> pd.DataFrame:
         """Return data from csv file as DataFrame"""
         if not cls.exist(name, reload=True):
             return None
@@ -66,7 +66,7 @@ class FileManager():
                            index_col=date_index_col)
 
     @classmethod
-    def write_csv(cls, name: str, data: pd.DataFrame, index: bool=True) -> bool:
+    def write(cls, name: str, data: pd.DataFrame, index: bool=True) -> bool:
         "Return true if writing from DataFrame to csv file successful"
         if cls.exist(name, reload=True):
             raise FileExistsError
