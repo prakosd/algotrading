@@ -3,10 +3,10 @@ from typing import Optional
 from dataclasses import dataclass
 import pandas as pd
 
-from ...base.implementation import IterativeBase
-from ....strategies import ContrarianParams
-from ....strategies.buyandhold.implementation import BuyAndHoldStrategy
-from .....common.trade import PositionType
+from ..base.implementation import IterativeBase
+from ...strategies import ContrarianParams
+from ...strategies.buyandhold import BuyAndHoldStrategy
+from ....common.trade import PositionType
 
 @dataclass
 class ContrarianStrategy(IterativeBase):
@@ -66,8 +66,7 @@ class ContrarianStrategy(IterativeBase):
 
         df_buy_hold = df_buy_hold.rename(columns={"equity": "buyHold"})
         return pd.concat([df_equity, df_buy_hold["buyHold"]],
-                         axis="columns").fillna(
-                             method="ffill").sort_index()
+                         axis="columns").ffill().sort_index()
 
     def plot_equity_records(self):
         """Plot equity and balance history"""

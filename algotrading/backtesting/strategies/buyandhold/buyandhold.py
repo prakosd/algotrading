@@ -1,8 +1,8 @@
 """Module of Buy and Hold Strategy Class"""
 from dataclasses import dataclass
 
-from ...base.implementation import IterativeBase
-from ....strategies import BuyAndHoldParams
+from ..base.implementation import IterativeBase
+from ...strategies import BuyAndHoldParams
 
 @dataclass
 class BuyAndHoldStrategy(IterativeBase):

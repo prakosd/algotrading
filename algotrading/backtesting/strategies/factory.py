@@ -3,8 +3,8 @@ import copy
 from typing import ClassVar
 
 from ...ticker.ticker import Ticker
-from .buyandhold.implementation import BuyAndHoldStrategy
-from .contrarian.implementation import ContrarianStrategy
+from .buyandhold import BuyAndHoldStrategy
+from .contrarian import ContrarianStrategy
 from ...providers import ProviderFactory
 from ..components.account import Account
 from . import BuyAndHoldParams, ContrarianParams
