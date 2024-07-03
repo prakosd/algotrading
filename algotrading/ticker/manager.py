@@ -36,11 +36,14 @@ class TickerManager(DataManager):
     @classmethod
     def find_by_metadata(cls, metadata: TickerMetadata,
                          reload: bool=False) -> pd.DataFrame | Ticker:
-        """Return ticker saved locally"""
+        """Return locally saved ticker"""
         if not cls.validate_metadata(metadata):
             return None
 
         df = cls.find(reload=reload)
+
+        if df is None or len(df) == 0:
+            return None
 
         if metadata.provider is not None:
             df = df[df[cls._PROVIDER].str.contains(metadata.provider, case=False)]
@@ -70,6 +73,15 @@ class TickerManager(DataManager):
             end       = ticker_metadata.end,
             timeframe = ticker_metadata.timeframe,
             data      = ticker_data
+        )
+
+    @classmethod
+    def find_by_filename(cls, filename: str,
+                         reload: bool=False) -> pd.DataFrame | Ticker:
+        """Return locally saved ticker"""
+        return cls.find_by_metadata(
+            metadata = cls.generate_metadata(filename),
+            reload   = reload
         )
 
     @classmethod
@@ -117,7 +129,7 @@ class TickerManager(DataManager):
 
         if not metadata.timeframe:
             return False
-        
+
         if not metadata.start:
             return False
 
