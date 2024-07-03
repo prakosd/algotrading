@@ -1,2 +1,2 @@
 """Initialize package"""
-from .data_manager import DataManager
+from .manager import DataManager
