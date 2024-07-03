@@ -114,7 +114,7 @@ class TickerManager(DataManager):
         cls._TICKER_DATA.loc[:, cls._START] = starts
         cls._TICKER_DATA.loc[:, cls._END] = ends
 
-        cls._TICKER_DATA.dropna(subset=[cls._PROVIDER], inplace=True)
+        # cls._TICKER_DATA.dropna(subset=[cls._PROVIDER], inplace=True)
         cls._TICKER_DATA.sort_values([cls._PROVIDER, cls._SYMBOL,
                                       cls._TIMEFRAME, cls._START, cls._END], inplace=True)
 
