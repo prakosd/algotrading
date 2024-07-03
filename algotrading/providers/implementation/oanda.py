@@ -7,11 +7,10 @@ import tpqoa
 from ...common.config import config
 from ..api import EIProvider
 from ...ticker import Ticker
-from ...data import DataManager
+from ...ticker import TickerManager, TickerMetadata
 
 class OandaProvider(EIProvider):
     """Implementation of EIProvider"""
-    _INDEX_COL = "time"
     _PRICE_ASK = "A"
     _PRICE_BID = "B"
     _PRICE_MID = "M"
@@ -20,10 +19,10 @@ class OandaProvider(EIProvider):
     @classmethod
     def get_instruments(cls, force_download: bool=False) -> pd.DataFrame:
         """Return available instruments"""
-        filename = cls.OANDA + "_INSTRUMENTS" + DataManager.FILE_EXT
+        filename = cls.OANDA + "_INSTRUMENTS" + TickerManager.FILE_EXT
 
         if not force_download:
-            df = DataManager.read(filename)
+            df = TickerManager.read(filename)
             if df is not None and not df.empty:
                 return df
 
@@ -31,18 +30,20 @@ class OandaProvider(EIProvider):
                                                 columns=["symbol", "instrument"])
         df[["symbol", "instrument"]] = df[["instrument", "symbol"]]
 
-        if DataManager.write(filename, df):
+        if TickerManager.write(filename, df):
             return df
 
         return None
 
     def get_filename(self) -> str:
         """Generate and return filename of saved response"""
-        name = (f"{self.OANDA}_{self.symbol.value}_"
-                f"{self.start}_{self.end}_{self.timeframe.value.granularity}")
-        filename = name + DataManager.FILE_EXT
-
-        return filename
+        return TickerManager.generate_filename(TickerMetadata(
+            provider=self.OANDA,
+            symbol=self.symbol,
+            start=self.start,
+            end=self.end,
+            timeframe=self.timeframe
+        ))
 
     def get_response(self, force_download: bool=False) -> pd.DataFrame:
         """Return response from provider"""
@@ -52,12 +53,12 @@ class OandaProvider(EIProvider):
         filename = self.get_filename()
 
         if not force_download:
-            df = DataManager.read(filename, self._INDEX_COL)
-            if df is not None and not df.empty:
-                return df
+            result = TickerManager.find_by_filename(filename)
+            if isinstance(result, Ticker):
+                return result.get_data()
 
         df = self._prepare_data()
-        if DataManager.write(filename, df):
+        if TickerManager.write(filename, df):
             return df
 
         return None
@@ -119,7 +120,10 @@ class OandaProvider(EIProvider):
         return response
 
     def get_ticker(self, force_download: bool=False) -> Ticker:
-        """Return response in Ticker object"""
+        """Return response as Ticker object"""
+        df = self._fetch_data()
+        if df is None or len(df) == 0:
+            return None
 
         return Ticker(self.symbol, self.start, self.end,
-                      self.timeframe, self._fetch_data(force_download))
+                      self.timeframe, df)
