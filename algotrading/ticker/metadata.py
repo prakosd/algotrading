@@ -5,7 +5,7 @@ from datetime import datetime as dt
 from ..common.asset import AssetPairCode as Symbol
 from ..common.trade import Timeframe
 
-@dataclass
+@dataclass(frozen=True)
 class TickerMetadata:
     """Ticker Metadata Definition"""
     provider: str
