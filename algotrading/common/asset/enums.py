@@ -1,10 +1,11 @@
-"""Module for Asset Code Enum"""
+"""Module of Asset Code"""
 from enum import Enum
 
-class AssetCode(Enum):
-    """Parent of asset code enum"""
+class AssetCode():
+    """Asset Code Class"""
     @classmethod
-    def _missing_(cls, value):
+    def get_code(cls, value) -> Enum:
+        """Return Asset Enum (Currency | Commodity | Index | Stock)"""
         if Currency.has_value(value):
             return Currency(value)
         elif Commodity.has_value(value):
@@ -14,9 +15,9 @@ class AssetCode(Enum):
         elif Stock.has_value(value):
             return Stock(value)
 
-        return super()._missing_(value)
+        return None
 
-class Currency(AssetCode):
+class Currency(Enum):
     """List of currency"""
     @classmethod
     def has_value(cls, value):
@@ -45,7 +46,7 @@ class Currency(AssetCode):
     USD = "USD"
     ZAR = "ZAR"
 
-class Commodity(AssetCode):
+class Commodity(Enum):
     """List of commodity"""
     @classmethod
     def has_value(cls, value):
@@ -70,7 +71,7 @@ class Commodity(AssetCode):
     WTICO = "WTICO"
     WHEAT = "WHEAT"
 
-class Index(AssetCode):
+class Index(Enum):
     """List of Index"""
     @classmethod
     def has_value(cls, value):
@@ -102,7 +103,7 @@ class Index(AssetCode):
     USB10Y = "USB10Y"
     USB30Y = "USB30Y"
 
-class Stock(AssetCode):
+class Stock(Enum):
     """List of Stock"""
     @classmethod
     def has_value(cls, value):
