@@ -12,6 +12,7 @@ class DataManager():
     _DATA: ClassVar[pd.DataFrame] = None
     _NAME: ClassVar[str] = "NAME"
     _EXT: ClassVar[str] = "EXT"
+    _SIZE: ClassVar[float] = "SIZE (KB)"
 
     DATA_DIR: ClassVar[str] = config.data_manager.data_directory
     FILE_EXT: ClassVar[str] = config.data_manager.file_extension
@@ -27,9 +28,10 @@ class DataManager():
 
             for file in sorted(os.listdir(cls.DATA_DIR)):
                 basename = os.path.basename(file)
-                data.append((basename, os.path.splitext(basename)[1]))
+                size = round(os.path.getsize(cls.DATA_DIR + file) / (pow(1024, 1)), 2)
+                data.append((basename, os.path.splitext(basename)[1], size))
 
-            cls._DATA = pd.DataFrame(data, columns=[cls._NAME, cls._EXT])
+            cls._DATA = pd.DataFrame(data, columns=[cls._NAME, cls._EXT, cls._SIZE])
 
         df = cls._DATA.copy()
 
