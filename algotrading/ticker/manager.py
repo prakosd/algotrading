@@ -61,20 +61,30 @@ class TickerManager(DataManager):
         if len(df) == 0:
             return None
 
-        if len(df) > 1:
-            return df
+        df = df.sort_values(by=[cls._SIZE])
 
         filename = df[cls._NAME].iloc[0]
         ticker_metadata = cls.generate_metadata(filename)
         ticker_data = cls.read(filename, cls._INDEX_COL)
 
+        if ticker_metadata.start == metadata.start and ticker_metadata.end == metadata.end:
+            return Ticker(
+                symbol    = ticker_metadata.symbol,
+                start     = ticker_metadata.start,
+                end       = ticker_metadata.end,
+                timeframe = ticker_metadata.timeframe,
+                data      = ticker_data
+            )
+
+        tz = pd.Timestamp(ticker_data.index[0]).tzinfo
         return Ticker(
-            symbol    = ticker_metadata.symbol,
-            start     = ticker_metadata.start,
-            end       = ticker_metadata.end,
-            timeframe = ticker_metadata.timeframe,
-            data      = ticker_data
-        )
+                symbol    = ticker_metadata.symbol,
+                start     = metadata.start,
+                end       = metadata.end,
+                timeframe = ticker_metadata.timeframe,
+                data      = ticker_data.loc[
+                    pd.Timestamp(metadata.start, tz=tz):pd.Timestamp(metadata.end, tz=tz)]
+            )
 
     @classmethod
     def find_by_filename(cls, filename: str,
