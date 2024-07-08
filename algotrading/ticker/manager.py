@@ -76,7 +76,7 @@ class TickerManager(DataManager):
                 data      = ticker_data
             )
 
-        tz = pd.Timestamp(ticker_data.index[0]).tzinfo
+        tz = ticker_data.index.tz
         return Ticker(
                 symbol    = ticker_metadata.symbol,
                 start     = metadata.start,
