@@ -1,7 +1,7 @@
 """Module of Ticker Class"""
 from dataclasses import dataclass
 from datetime import datetime as dt
-from typing import Self
+from typing import ClassVar, Self
 import matplotlib.pyplot as plt
 import pandas as pd
 
@@ -11,9 +11,11 @@ from .tick import Tick
 
 plt.style.use("seaborn-v0_8")
 
-@dataclass
+@dataclass(frozen=True)
 class Ticker():
     """Ticker Class"""
+    _FIGURE_SIZE: ClassVar[tuple[float, float]] = (12, 8)
+
     symbol: Symbol
     start: dt
     end: dt
@@ -35,12 +37,11 @@ class Ticker():
         if datetime is not None:
             try:
                 row = self.data.loc[pd.to_datetime(datetime)]
+                if row is None:
+                    return None
             except KeyError as exp:
                 print(exp)
                 return None
-
-        if row is None:
-            return None
 
         return Tick(self.symbol, row.name,
                     row.ask, row.bid, row.mid,
@@ -74,9 +75,9 @@ class Ticker():
             print("No data to plot")
         else:
             title = f"{self.symbol.value} - ({self.timeframe.value.description})"
-            self.data.mid.plot(title=title, figsize=(12, 8))
+            self.data.mid.plot(title=title, figsize=self._FIGURE_SIZE)
 
-    def resample(self, to_timeframe: Timeframe) -> pd.DataFrame | None:
+    def resample(self, to_timeframe: Timeframe) -> Self | None:
         """Resample ticker data from lower to higher timeframe"""
         if self.data is None:
             return None
@@ -85,18 +86,21 @@ class Ticker():
         tf_end_id   = to_timeframe.value.id
 
         if tf_end_id > tf_start_id:
-            self.data = self.data.resample(
+            df = self.data.resample(
                 to_timeframe.value.resample, label="right").last().ffill()
+
             print(f"{self.symbol.value} - Resampling {self.timeframe.value.description} -> "
                   f"{to_timeframe.value.description} successful")
-            self.timeframe = to_timeframe
-            return self.data.copy()
+
+            return Ticker(self.symbol, self.start, self.end,
+                      to_timeframe, df)
 
         print(f"{self.symbol.value} - Resampling to lower and equal timeframe is not allowed. "
               f"{self.timeframe.value.description} -> {to_timeframe.value.description}")
+
         return None
 
-    def append(self, ticker: Self) -> pd.DataFrame | None:
+    def append(self, ticker: Self) -> Self | None:
         """Append ticker data with ticker of the same symbol and timeframe"""
         if self.data is None and ticker.data is None:
             return None
@@ -108,15 +112,18 @@ class Ticker():
         symbol_them = ticker.symbol.value
 
         if tf_self_id == tf_them_id and symbol_self == symbol_them:
-            self.data = pd.concat(
+            df = pd.concat(
                 [self.data, ticker.data]).drop_duplicates().sort_index()
             print("Appending successful")
-            return self.data
+
+            return Ticker(self.symbol, min(self.start, ticker.start), max(self.end, ticker.end),
+                      self.timeframe, df)
 
         print(f"Only appending tickers with the same symbol and timeframe are allowed. "
               f"{self.timeframe.value.description} -> "
               f"{ticker.timeframe.value.description} -> "
               f"{symbol_self} & {symbol_them}")
+
         return None
 
     def analyze(self, plot_data: bool=True) -> pd.DataFrame:
