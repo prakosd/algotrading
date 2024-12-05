@@ -15,12 +15,14 @@ plt.style.use("seaborn-v0_8")
 class Ticker():
     """Ticker Class"""
     _FIGURE_SIZE: ClassVar[tuple[float, float]] = (12, 8)
+    _SYMBOL_DELIMITER: ClassVar[str] = "_"
 
     symbol: Symbol
     start: dt
     end: dt
     timeframe: Timeframe
     data: pd.DataFrame
+    reversed: bool = False
 
     def get_data(self, index: int = None,
                  datetime: str = None) -> pd.DataFrame | Tick | None:
@@ -125,6 +127,31 @@ class Ticker():
               f"{symbol_self} & {symbol_them}")
 
         return None
+
+    def reverse(self) -> Self | None:
+        """Return the multiplicative inverse (or reciprocal) of 
+        the ticker data for the currency pair"""
+        if self.data is None:
+            return None
+
+        [base, quote] = self.symbol.value.split(self._SYMBOL_DELIMITER)
+        print(f"Reversing {self.symbol.value} to {quote}_{base}")
+
+        df = self.data.copy()
+        df["ask_temp"] = df.ask
+        df.ask = 1 / df.bid
+        df.bid = 1 / df.ask_temp
+        df.mid = 1 / df.mid
+        df = df.drop(columns="ask_temp", axis=1)
+
+        df.ask = df.apply(lambda x: round(x.ask, x.digit.astype(int)), axis=1)
+        df.bid = df.apply(lambda x: round(x.bid, x.digit.astype(int)), axis=1)
+        df.mid = df.apply(lambda x: round(x.mid, x.digit.astype(int)), axis=1)
+
+        df.spread = round((df.ask - df.bid) * pow(10, df.digit), 0).apply(int)
+
+        return Ticker(self.symbol, self.start, self.end,
+                      self.timeframe, df, True)
 
     def analyze(self, plot_data: bool=True) -> pd.DataFrame:
         """Analyze ticker data and return the result"""
