@@ -1,6 +1,6 @@
 """Module to load config"""
 from dataclasses import dataclass
-from typing import ClassVar
+from typing import ClassVar, Self
 from os import path
 import configparser
 import ast
@@ -13,20 +13,27 @@ from .config_def import DataManagerConfigData
 @dataclass
 class Config:
     """Class to load config"""
-    _instance: ClassVar[ConfigData] = None
+    _instance: ClassVar[Self] = None
+    _data: ConfigData = None
     _CONF_FILE: ClassVar[str] = path.relpath(
         path.join(
             path.dirname(
                 path.relpath(__file__)), '../../config/global.cfg'))
 
-    @staticmethod
-    def get_instance(reload: bool=False) -> ConfigData:
-        """Retrieve config instance as singleton"""
-        if Config._instance is not None and not reload:
-            return Config._instance
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super(Config, cls).__new__(cls)
+        return cls._instance
 
+    def get_data(self, reload: bool=False) -> ConfigData:
+        """Return ConfigData"""
+        if self._data is None or reload:
+            self._reload()
+        return self._data
+
+    def _reload(self):
         parser = configparser.ConfigParser()
-        parser.read(Config._CONF_FILE)
+        parser.read(self._CONF_FILE)
 
         common = CommonConfigData(
             data_directory               = parser['common']['data_directory'],
@@ -61,7 +68,6 @@ class Config:
             volume_percent_max = int(parser['deal']['volume_percent_max'])
         )
 
-        Config._instance = ConfigData(common, data_manager, provider, account, deal)
-        return Config._instance
+        self._data = ConfigData(common, data_manager, provider, account, deal)
 
-config: ConfigData = Config.get_instance()
+config: ConfigData = Config().get_data()
