@@ -1,7 +1,7 @@
 """Module of Asset Code"""
 from enum import Enum
 
-class AssetCode():
+class AssetCode(Enum):
     """Asset Code Class"""
     @classmethod
     def get_code(cls, value) -> Enum:
