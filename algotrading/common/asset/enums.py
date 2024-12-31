@@ -4,8 +4,8 @@ from enum import Enum
 class AssetCode(Enum):
     """Asset Code Class"""
     @classmethod
-    def get_code(cls, value) -> Enum:
-        """Return Asset Enum (Currency | Commodity | Index | Stock)"""
+    def by_value(cls, value) -> Enum:
+        """Return Asset Enum (Currency | Commodity | Index | Stock) by value"""
         if Currency.has_value(value):
             return Currency(value)
         elif Commodity.has_value(value):

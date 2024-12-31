@@ -64,8 +64,8 @@ class AssetPair():
                                               [self._BASE, self._QUOTE,
                                               self._TYPE]].iloc[0]
 
-            (self.base, self.quote, self.type) = (Asset(AssetCode.get_code(base)),
-                                                  Asset(AssetCode.get_code(quote)),
+            (self.base, self.quote, self.type) = (Asset(AssetCode.by_value(base)),
+                                                  Asset(AssetCode.by_value(quote)),
                                                   AssetPairType(pair_type))
             self.name = self.base.name + ' - ' + self.quote.name
 
