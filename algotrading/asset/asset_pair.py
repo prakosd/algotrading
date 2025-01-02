@@ -1,17 +1,16 @@
 """Module of Asset Pair Class"""
 from dataclasses import dataclass, field
 from typing import ClassVar
-import os.path
 import pandas as pd
 
 from ..common.config import config
 from .asset import Asset
 from ..common.asset import AssetPairCode, AssetPairType, AssetCode
+from ..common.manager import CommonDataManager
 
 @dataclass
 class AssetPair():
     """Asset Pair Class"""
-    _DATA_DIR: ClassVar[str] = config.common.data_directory
     _FILE_EXT: ClassVar[str] = config.common.file_extension
     _FILENAME: ClassVar[str] = config.common.asset_pair_filename
     _DATA: ClassVar[pd.DataFrame] = None
@@ -32,13 +31,10 @@ class AssetPair():
                         reload: bool=False) -> pd.DataFrame:
         """Return list of asset pair"""
         if cls._DATA is None or reload:
-            directory = cls._DATA_DIR
-            filename = cls._FILENAME + cls._FILE_EXT
+            cls._DATA = CommonDataManager.read(cls._FILENAME + cls._FILE_EXT)
 
-            if os.path.exists(directory + filename):
-                cls._DATA = pd.read_csv(directory + filename)
-            else:
-                raise FileNotFoundError(f"{directory + filename}")
+            if cls._DATA is None:
+                raise FileNotFoundError(cls._FILENAME + cls._FILE_EXT)
 
         df = cls._DATA.copy()
 
