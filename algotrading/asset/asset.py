@@ -44,10 +44,12 @@ class Asset():
     def __post_init__(self):
         """Post initialization"""
         df = self.get_assets()
-        try:
-            asset_type = df.loc[(df[self._CODE] == self.code.value), self._TYPE].iloc[0]
+        asset_type_df = df.loc[(df[self._CODE] == self.code.value), self._TYPE]
+        if not asset_type_df.empty:
+            asset_type = asset_type_df.iloc[0]
             self.type = AssetType(asset_type)
             self.name = df.loc[(df[self._CODE] == self.code.value), self._NAME].iloc[0]
-        except IndexError as error:
-            print("An exception occurred:", error)
-            print(f"AssetEnum: {self.code} doesn't exist")
+        else:
+            self.code = None
+            self.type = None
+            self.name = None
