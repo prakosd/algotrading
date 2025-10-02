@@ -1,0 +1,11 @@
+# Global code owners
+# These owners will be the default owners for everything in the repo.
+# Unless a later match takes precedence, these users will be requested for
+# review when someone opens a pull request.
+* @prakosd
+
+# You can also specify code owners for specific directories or file types
+# Examples:
+# /docs/ @prakosd
+# *.py @prakosd
+# /algotrading/ @prakosd
