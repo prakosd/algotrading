@@ -9,7 +9,6 @@ from algotrading.backtesting.components.deal.deal import Deal
 from algotrading.common.trade import DealType
 from algotrading.common.asset import AssetPairCode as Symbol
 
-
 class TestDeal:
     """Test suite for Deal class covering all functionality from deal_class_test_suite.ipynb."""
 
