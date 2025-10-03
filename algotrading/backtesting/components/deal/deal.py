@@ -1,7 +1,13 @@
-"""Deal component for backtesting operations."""
+"""
+Deal Component for Backtesting Operations.
+
+Provides the Deal class representing completed trading deals with thread-safe
+ID generation, execution tracking, and serialization capabilities.
+"""
 from dataclasses import dataclass, field
 from typing import ClassVar, Any
 from datetime import datetime as dt
+import threading
 
 from ....common.trade import DealType
 from ....common.asset import AssetPairCode as Symbol
@@ -9,12 +15,25 @@ from ....common.asset import AssetPairCode as Symbol
 @dataclass
 class Deal():
     """
-    Represents a trading deal with auto-generated ID and conversion capabilities.
+    Thread-safe trading deal with auto-generated ID and serialization.
     
-    A deal captures the execution of a trade including symbol, timing, type,
-    volume, and price information for backtesting analysis.
+    Represents a completed trade execution with symbol, timestamp, type (BUY/SELL),
+    volume, and price. Features thread-safe ID generation for concurrent environments.
+    
+    Attributes:
+        id (int): Auto-generated unique identifier
+        symbol (Symbol): Asset pair symbol
+        datetime (dt): Execution timestamp
+        type (DealType): Deal type (BUY or SELL)
+        volume (float): Executed volume
+        price (float): Execution price
+        
+    Example:
+        >>> deal = Deal(Symbol.EURUSD, datetime.now(), DealType.BUY, 1.0, 1.2345)
+        >>> print(f"Deal {deal.id}: {deal.type.name} {deal.volume}")
     """
     _next_id: ClassVar[int] = 0
+    _id_lock: ClassVar[threading.Lock] = threading.Lock()
 
     id: int = field(init=False)
     symbol: Symbol
@@ -25,21 +44,23 @@ class Deal():
 
     @classmethod
     def reset_id(cls) -> None:
-        """Reset the next ID counter to 0."""
-        cls._next_id = 0
+        """Reset deal ID counter to zero (thread-safe)."""
+        with cls._id_lock:
+            cls._next_id = 0
 
     @classmethod
     def generate_id(cls) -> int:
-        """Generate and return the next available ID."""
-        new_id = cls._next_id
-        cls._next_id += 1
-        return new_id
+        """Generate next unique deal ID (thread-safe)."""
+        with cls._id_lock:
+            new_id = cls._next_id
+            cls._next_id += 1
+            return new_id
 
     def __post_init__(self) -> None:
-        """Initialize the deal ID after object creation."""
+        """Initialize deal with auto-generated unique ID."""
         self.id = self.generate_id()
 
     def as_dict(self) -> dict[str, Any]:
-        """Convert deal to dictionary format for serialization or analysis."""
+        """Convert deal to dictionary for serialization."""
         return {'id': self.id, 'symbol': self.symbol.value, 'datetime': self.datetime,
                 'type': self.type.name, 'volume': self.volume, 'price': self.price}
